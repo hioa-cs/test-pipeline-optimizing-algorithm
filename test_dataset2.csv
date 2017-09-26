@@ -1,0 +1,5 @@
+test_name,probability_failure,subsequent_tests
+A,0.4,B
+B,-,-
+C,0.1,B
+D,0.5,A
