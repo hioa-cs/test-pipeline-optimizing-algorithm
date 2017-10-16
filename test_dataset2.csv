@@ -1,5 +1,4 @@
-test_name,probability_failure,subsequent_tests
-A,0.4,B
-B,-,-
-C,0.1,B
-D,0.5,A
+A,1,0.4,B
+B,2,0,D
+C,3,0.1,B,A
+D,4,0.5,A,C
