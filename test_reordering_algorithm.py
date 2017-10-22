@@ -6,134 +6,145 @@ import sys
 filename = sys.argv[1]
 tests = []
 dataset = []
+withpretests = []
+#pret = [['A','C','D'],['B','A','C'],['C','D'],['D','B']]
 
 def get_data(filename): # funtion in class as attribute can be a METHOD
-        dataset = [i.strip('\n').split(',') for i in open(filename)]
-#        print 'before: '
-#        print dataset
-        return dataset
+    dataset = [i.strip('\n').split(',') for i in open(filename)]
+    return dataset
 
-######EXAMPLE##########
-# l = [[A, 1, 2], [B, 2, 5], [C, 2]]
-#for item in l:
-#   print item[0], ', '.join(map(str, item[1:]))
-#############################
-
-def compute_pre_tests(test,tname):
+def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
+#    print 'Compute pre test'
+#    print ptests
+    sub_tests = []
     pre_tests = []
-    name_test = tname
-    if test[3]:
-        for t in test[3:]:
-            pre_tests.append(name_test)
-    print 'PRE TESTS'
-    print pre_tests
-    return pre_tests
 
-# finds the mamimum position in the pre_tests and subsequent_tests list
-def find_max(tests, p, stest):
-#    print 'stest'
-#    print stest
-    if stest == []:
-        #return tests[test].position
-        #return len(tests) + 1
+    for r in ptests:
+        sub_tests = r[3:]
+        sublen = len(sub_tests)
+        rlen = len(r)
+        ppos = (rlen - sublen) + 1
+        tname = r[0]
+        for t in sub_tests:
+            for test in ptests:
+                if t == test[0]:
+                    test.append(tname)
+#                    print test[ppos:]
+
+#    print ptests[pos][ppos:]
+#    return ptests[pos][ppos:]
+#    print ptests
+    return ptests
+
+#call with - find_max(tests, subsequent_tests/ pre_tests)
+# for each test in the pre or sub list find the position of that test in the main tests!
+# from that compute the test with the max position in tests
+
+def find_max(tests, tlist):
+    if tlist == []:
         return -1
     max_position = 0
 
-    for t in stest:
-        t_position = p
-        if max_position < t_position:
-            max_position = t_position
-    print 'MAX'
-    print max_position
+    for t in tlist:
+        for test in tests:
+            if test[0] == t:
+                t_position = test[1]
+                if t_position > max_position:
+                    max_position = t_position
+#    print 'MAX'
+#    print max_position
     return max_position
 
-# finds the minimum position in the pre_tests and subsequent_tests list
-#call with - find_min(tests, rx, subsequent_tests)
-def find_min(tests, p, stest):
+#call with - find_min(tests, subsequent_tests/ pre_tests)
+#for each test in the pre or sub list find the position of that test in the main tests!
+# compute the test with the min postion in tests
+
+def find_min(tests, tlist):
 #    print xpos
-    if stest == []:
+    if tlist == []:
         return len(tests) + 1
     min_position = len(tests) + 1
+#    print min_position
 
-    for t in stest:
-        t_position = p
-        if min_position > t_position:
-            min_position = t_position
-    print 'MIN'
-    print min_position
+    for t in tlist:
+        for test in tests:
+            if test[0] == t:
+                t_position = test[1]
+                if t_position < min_position:
+                    min_position = t_position
+
+#    print 'MIN'
+#    print min_position
     return min_position
 
 #tests is the array of tests
 # rx position of test x
 # ry positon of test y
 def swap(tests, x, y):
-    temp_position = tests[x]
-#    print temp_position
+    temp = []
+#    tpos = x
+    temp = tests[x]
     tests[x] = tests[y]
-    tests[y] = temp_position
+    tests[y] = temp
     print 'SWAP'
     print tests[x],tests[y]
 
 #Using Lists
-def reorder(tests):
+def reorder(tests,withpretests):
+    print tests
+    print withpretests
     for rx in tests:
-        xpos = float(rx[1])
+        xpos = int(rx[1])
         x_prob_fail= float(rx[2])
         delta_max = 0
         delta_max_test = 0
-#        print rx
-#        print xpos, x_prob_fail
+        xsublen = len(rx[3:])
+        xlen = len(rx)
+        xppos = (xlen - xsublen)
         for ry in tests:
             new = 0
-            ypos = float(ry[1])
+            ypos = int(ry[1])
             y_prob_fail = float(ry[2])
-#            print ry
-#            print ypos, y_prob_fail
+            ysublen = len(ry[3:])
+            ylen = len(ry)
+            yppos = (ylen - ysublen)
             if rx != ry:
                 if xpos < ypos:
-#                    pre_tests = compute_pre_tests(ry,ry[0])
-#                    print pre_tests
-#                    print xpos,ypos
-                    print 'ry'
-                    print ry[1],ry,ry[0]
-                    rx_sub_test_minpos = find_min(tests, rx[1], rx[3:])
-                    ry_pre_test_maxpos = find_max(tests, ry[1], compute_pre_tests(ry,ry[0])) # FIND MAX find_max(tests, ry, pre_tests[])
-                    print 'xpos < ypos'
-#                    print ry_pre_test_maxpos
-#                    print rx_sub_test_minpos
-                    if xpos < ry_pre_test_maxpos and ypos > rx_sub_test_minpos:
-                        print 'xpos < ry_pre_test_maxpos and ypos > rx_sub_test_minpos'
+#                    print 'ry'
+#                    print ry[1],ry,ry[0]
+                    rx_sub_test_minpos = find_min(tests, rx[3:])
+                    ry_pre_test_maxpos = find_max(tests, withpretests[yppos:]) # FIND MAX find_max(tests, ry, pre_tests[])
+#                    print 'xpos < ypos'
+                    if xpos > ry_pre_test_maxpos and ypos < rx_sub_test_minpos:
+#                        print 'xpos < ry_pre_test_maxpos and ypos > rx_sub_test_minpos'
                         if x_prob_fail < x_prob_fail:
-                            print 'x_prob_fail < x_prob_fail'
+#                            print 'x_prob_fail < x_prob_fail'
                             # new value of decrease in time by doing swapping
                             # difference in test positions - difference in porbability of a test failing
-                            new = float(x_prob_fail - x_prob_fail * xpos - ypos)
-                            print new
-                            if delta_max < new:
-                                delta_max = new
-                                delta_max_test = ry[1]
-                                print delta_max_test
-                else:
-#                    print xpos,ypos
-                    print 'else xpos > ypos'
-                    ry_sub_test_minpos = find_min(tests, ry[1], ry[3:]) #FIND MIN find_min(tests, rx, v[3:])
-                    rx_pre_test_maxpos = find_max(tests, rx[1], compute_pre_tests(rx,rx[0])) # FIND MAX find_max(tests, rx, pre_tests[])
-#                    print ry_sub_test_minpos
-#                    print rx_pre_test_maxpos
-                    if ypos < rx_pre_test_maxpos and xpos > ry_sub_test_minpos:
-                        print 'else: ypos < rx_pre_test_maxpos and xpos > ry_sub_test_minpos:'
-                        if x_prob_fail < xpos:
-                            print 'else: x_prob_fail < xpos'
-                            new = x_prob_fail - x_prob_fail * xpos - ypos
+                            new = (x_prob_fail - x_prob_fail) * (xpos - ypos)
 #                            print new
                             if delta_max < new:
                                 delta_max = new
-                                delta_max_test = ry[1]
+                                delta_max_test = ry
 #                                print delta_max_test
-#            print tests
+                else:
+#                    print 'else xpos > ypos'
+                    ry_sub_test_minpos = find_min(tests, ry[3:]) #FIND MIN find_min(tests, rx, v[3:])
+                    rx_pre_test_maxpos = find_max(tests, withpretests[xppos:]) # FIND MAX find_max(tests, rx, pre_tests[])
 
+                    if ypos > rx_pre_test_maxpos and xpos < ry_sub_test_minpos:
+#                        print 'else: ypos < rx_pre_test_maxpos and xpos > ry_sub_test_minpos:'
+                        if x_prob_fail < xpos:
+#                            print 'else: x_prob_fail < xpos'
+                            new = (x_prob_fail - x_prob_fail) * (xpos - ypos)
+#                            print new
+                            if delta_max < new:
+                                delta_max = new
+                                delta_max_test = ry # the whole test and its elements
+#                                print delta_max_test
         if delta_max > 0:
-            swap(tests, xpos, delta_max_test)
+#            swap(tests, rx, delta_max_test)
+            swap(tests, xpos, delta_max_test[1]) #delta_max_test[1] has ry[1] meaning the position of ry
         else:
             continue
 #    print tests
@@ -141,7 +152,12 @@ def reorder(tests):
     return delta_max
 
 def main():
-    reorder(get_data(filename))
+
+#    compute_pre_tests(get_data(filename),(3-1)) # 3-1 for line 3
+
+    withpretests = compute_pre_tests(get_data(filename))
+
+    reorder(get_data(filename),withpretests)
 
 
 
