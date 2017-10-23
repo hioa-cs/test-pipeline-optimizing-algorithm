@@ -7,17 +7,46 @@ filename = sys.argv[1]
 tests = []
 dataset = []
 withpretests = []
+pre_tests = {}
 #pret = [['A','C','D'],['B','A','C'],['C','D'],['D','B']]
 
 def get_data(filename): # funtion in class as attribute can be a METHOD
     dataset = [i.strip('\n').split(',') for i in open(filename)]
     return dataset
 
+
+def get_dependencies(test,ptest,ptests):
+    # test = the test we are searching on behalf of
+    # ptest = a test we found down the dependencie line
+    sub_tests = []
+
+    sub_tests = ptest[3:]
+    # 1. get all known get_dependencies
+    print "Finding all unknown dependencies for " + test + " from " + ptest[0]
+    if len(sub_tests) == 0:
+        print "No known dependencies for " + ptest[0] + ", skipping"
+        return
+    
+    for t in sub_tests:
+        if t not in pre_tests[test]:
+            print "storing " + t + " as a dependencie for " + test
+            pre_tests[test].append(t)            
+            for dep in ptests:
+                if t == dep[0]:
+                    get_dependencies(test,dep,ptests)
+
+
+
+
+    # 2. add all known dependencies to t's list (if not there already)
+
+    # 3. Call get dependencies for all known dependencies
+
+
 def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 #    print 'Compute pre test'
 #    print ptests
     sub_tests = []
-    pre_tests = []
 
     for r in ptests:
         sub_tests = r[3:]
@@ -25,10 +54,18 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
         rlen = len(r)
         ppos = (rlen - sublen) + 1
         tname = r[0]
+        pre_tests[tname] = []
+        print "Finding all dependencies for " + tname
+        if len(sub_tests) == 1 and sub_tests[0] == '':
+            print "No known dependencies for " + tname + ", skipping"
+            return
         for t in sub_tests:
+            print "storing " + t + " as a dependencie for " + tname
+            pre_tests[tname].append(t)            
             for test in ptests:
                 if t == test[0]:
-                    test.append(tname)
+                    get_dependencies(tname,test,ptests)
+                    # test.append(tname)
 #                    print test[ppos:]
 
 #    print ptests[pos][ppos:]
