@@ -19,42 +19,58 @@ def get_data(filename): # funtion in class as attribute can be a METHOD
     for line in dataset:
         line.split(',')
         tests.append(line.replace('\n',''))
-    print tests
+#    print tests
     return tests
 
 
 ######################### GETTING SUB TESTS #########################
 
-def get_subtest(tname,stest,pre_tests):
-    # tname = the test we are searching on behalf of
-    # stest = a test we found for the subtest list
+def get_subtest(testkey,pre_tests,k,origin):
+    # ptest = one test list such as > C:'B','A'
     # pre_tests = is a dictionary of dependencies of each test
-    for t in pre_tests:
-        if t not in sub_tests[test]:
-            print "storing " + t + " as a subtest for " + test
-            sub_tests[tname].append(t)
-            for stest in pre_tests:
-                if t == stest[0]:
-                    get_subtest(tname,stest,pre_tests)
+    # k = key
+    ptest = pre_tests[testkey]
+
+    if len(ptest) == 1 and ptest == '' :
+        print "No known subtest for " + k + ", skipping"
+        return
+
+    for tname in ptest:
+        # if k in sub_tests and tname not in sub_tests[k]: # the new sub_tests dictionary > A:'B','C','D' , B:'C','D', C:'', D:''
+        if tname == k:
+            print 'storing {} as a subtest for {} in get_subtest'.format(tname, origin)
+            if not testkey in sub_tests[origin]:
+                sub_tests[origin].append(testkey) # the new sub_tests dictionary > A:'B','C','D' , B:'C','D', C:'', D:''
+            for ktest in pre_tests: # parsing pre_tests key / A,B,C,D
+                get_subtest(ktest,pre_tests,testkey,origin)
 
 def compute_subtest(tests,pre_tests):
-
-    for k in pre_tests:
-        tname = reduce(operator.concat, pre_tests[k])
-        tname = reduce(operator.concat, tname)
-        if len(tname) == 0 and tname == '' :
-               print "No known subtest for " + k + ", skipping"
-               continue
+    for k in pre_tests:     # k = key of pre_tests / A,B,C,D
+        ptest = pre_tests[k] # ptest >> A:'',  B:'A',  C:'B','A',  D:'B','A'
         print k
-        print tname
-        print 'storing {} as a subtest for {}'.format(k, tname)
-        sub_tests[tname].append(k)
-        for stest in pre_tests[k]:
-            if stest == k:
-                print 'storing {} as a subtest for {}'.format(stest, tname)
-                sub_tests[tname].append(stest)
-                get_subtest(tname,stest,pre_tests)
-    print sub_tests
+        print ptest
+#        if len(ptest) == 1 and ptest == '' :
+#            print "No known subtest for " + k + ", skipping"
+#            return
+        for tname in ptest: # parsing pre_tests test data > tname > A:'',  B:'A',  C:'B','A',  D:'B','A'
+            if tname == '' :
+                print "No known pre test for " + k + ", skipping"
+            else:
+                print "tname " + tname
+                if not tname in sub_tests:
+                    sub_tests[tname] = []
+                print "tname in compute sub_tests " + tname
+                print 'storing {} as a subtest for {}'.format(k, tname)
+                if not k in sub_tests[tname]:
+                    sub_tests[tname].append(k) # the new sub_tests dictionary > A:'B','C','D' , B:'C','D', C:'', D:''
+                print sub_tests
+                for ktest in pre_tests:
+                    get_subtest(ktest,pre_tests,k,tname)
+
+    for k in pre_tests:     # k = key of pre_tests / A,B,C,D
+        if not k in sub_tests:
+            sub_tests[k] = []
+#    print sub_tests
     return sub_tests
 
 ######################### END OF GETTING SUB TESTS #########################
@@ -68,10 +84,12 @@ def get_dependencies(test,ptest,ptests):
     # ptest = a test we found down the dependencie line (ptest is a list containing everything about this test)
     # pre_list = is an empty list that is assigned the ptest[] list as found in test
     pre_list = []
-    pre_list = ptest[3:]
+    pre_list = ptest.split(',')[3:]
+    print "pre_list"
+    print pre_list
     # 1. get all known get_dependencies
     print "Finding all unknown dependencies for " + test + " from " + ptest[0]
-    if len(pre_list) == 0:
+    if len(pre_list) == 1 and pre_list[0] == '':
         print "No known dependencies for " + ptest[0] + ", skipping"
         return
 
@@ -97,17 +115,19 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
     for r in ptests:
         r = r.split(',')
         pre_list = r[3:]
-#        print pre_list
+        print "pre_list"
+        print pre_list
         sublen = len(pre_list)
         tname = r[0]
+        print "tname in pre_tests" + tname
         pre_tests[tname] = []
         print "Finding all dependencies for " + tname
         if len(pre_list) == 1 and pre_list[0] == '':
             print "No known dependencies for " + tname + ", skipping"
         #    return # with this return it skips finding dependencies if pre_list is empty
-#        print pre_list
+        print pre_list
         for t in pre_list:
-            t = t.split(',') #newly added for splitting, because t was printing and storing the commas as values
+    #        t = t.split(',') #newly added for splitting, because t was printing and storing the commas as values
             print 'storing {} as a dependency for {}'.format(t,tname)
             pre_tests[tname].append(t)
             for test in ptests:
@@ -146,8 +166,8 @@ def find_max(tests, tlist): # might need to fix tlist as its a dictionary now # 
 #    print max_position
     return max_position
 
-#call with - find_min(tests, subsequent_tests/ pre_tests)
-#for each test in the pre or sub list find the position of that test in the main tests!
+# call with - find_min(tests, subsequent_tests/ pre_tests)
+# for each test in the pre or sub list find the position of that test in the main tests!
 # compute the test with the min postion in tests
 
 # def find_min(tests, test, tlist)
@@ -188,8 +208,7 @@ def swap(tests, x, y):
 ##################################### REORDER ALGORITHM #######################################
 #Using Lists
 def reorder(tests,pre_tests,sub_tests):
-    print tests
-#    print pre_tests
+#    print tests
     for rx in tests:
         xpos = rx[1]
         x_prob_fail= float(rx[2])
@@ -242,11 +261,14 @@ def reorder(tests,pre_tests,sub_tests):
 def main():
 
     compute_pre_tests(get_data(filename))
-    print "with:"
+    print "pre_tests:"
     print pre_tests
+    print "======== STARTS COMPUTING SUB TESTS ======="
     compute_subtest(tests,pre_tests)
+    print "sub_tests:"
     print sub_tests
-#    reorder(get_data(filename),pre_tests, sub_tests)
+    reorder(get_data(filename), pre_tests, sub_tests)
+    print tests
 
 
 
