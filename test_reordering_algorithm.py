@@ -19,7 +19,8 @@ def get_data(filename): # funtion in class as attribute can be a METHOD
     for line in dataset:
         line.split(',')
         tests.append(line.replace('\n',''))
-#    print tests
+    print "TEST DATA COLLECTED FROM FILE and Stored in List"
+    print tests
     return tests
 
 
@@ -152,6 +153,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 # def find_max(tests, test, tlist)
 
 def find_max(tests, tlist): # might need to fix tlist as its a dictionary now # can use key to point to value now.
+    print "Finding max_position for dependency list"
     if tlist == []:
         return -1
     max_position = 0
@@ -173,6 +175,7 @@ def find_max(tests, tlist): # might need to fix tlist as its a dictionary now # 
 # def find_min(tests, test, tlist)
 def find_min(tests, tlist): # might need to fix tlist as its a dictionary now # can use key to point to value now.
 #    print xpos
+    print "Finding min_position for dependency list"
     if tlist == []:
         return len(tests) + 1
     min_position = len(tests) + 1
@@ -197,6 +200,7 @@ def find_min(tests, tlist): # might need to fix tlist as its a dictionary now # 
 # rx position of test x
 # ry positon of test y
 def swap(tests, x, y):
+    print "Swapping is Valid, therefore SWAPPING tests:" + tests[x] + "and" + tests[y]
     temp = []
 #    tpos = x
     temp = tests[x]
@@ -222,7 +226,7 @@ def reorder(tests,pre_tests,sub_tests):
 
             if rx != ry:
                 if xpos < ypos:
-#                    print 'else xpos < ypos'
+                    print 'xpos < ypos'
                     rx_sub_test_minpos = find_min(tests, sub_tests)
                     ry_pre_test_maxpos = find_max(tests, pre_tests) # FIND MAX find_max(tests, ry, pre_tests[])
                     if xpos > ry_pre_test_maxpos and ypos < rx_sub_test_minpos:
@@ -236,7 +240,7 @@ def reorder(tests,pre_tests,sub_tests):
                                 delta_max_test = ry
 #                                print delta_max_test
                 else:
-#                    print 'else xpos > ypos'
+                    print 'xpos > ypos'
                     ry_sub_test_minpos = find_min(tests, sub_tests) #FIND MIN find_min(tests, rx, v[3:])
                     rx_pre_test_maxpos = find_max(tests, pre_tests) # FIND MAX find_max(tests, rx, pre_tests[])
 
@@ -248,6 +252,8 @@ def reorder(tests,pre_tests,sub_tests):
                                 delta_max = new
                                 delta_max_test = ry # the whole test and its elements
 #                                print delta_max_test
+            print tests
+
         if delta_max > 0:
 #            swap(tests, rx, delta_max_test)
             swap(tests, xpos, delta_max_test[1]) #delta_max_test[1] has ry[1] meaning the position of ry
@@ -267,7 +273,7 @@ def main():
     compute_subtest(tests,pre_tests)
     print "sub_tests:"
     print sub_tests
-    reorder(get_data(filename), pre_tests, sub_tests)
+    reorder(tests, pre_tests, sub_tests)
     print tests
 
 
