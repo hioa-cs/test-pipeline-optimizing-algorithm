@@ -99,8 +99,6 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
         pre_list = r[3:]
 #        print pre_list
         sublen = len(pre_list)
-        rlen = len(r)
-        ppos = (rlen - sublen) + 1
         tname = r[0]
         pre_tests[tname] = []
         print "Finding all dependencies for " + tname
@@ -117,7 +115,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
                     get_dependencies(tname,test,ptests)
                     # test.append(tname)
 
-    # pre_tests has all dependencies for each test
+#    pre_tests has all dependencies for each test
 #    print pre_tests
     return pre_tests
 
@@ -131,14 +129,16 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 # for each test in the pre or sub list find the position of that test in the main tests!
 # from that compute the test with the max position in tests
 
-def find_max(tests, tlist): # might need to fix tlist as its a dictionary now
+# def find_max(tests, test, tlist)
+
+def find_max(tests, tlist): # might need to fix tlist as its a dictionary now # can use key to point to value now.
     if tlist == []:
         return -1
     max_position = 0
 
-    for t in tlist:
+    for t in tlist: #tlist is a dictionary now
         for test in tests:
-            if test[0] == t:
+            if test[0] == tlist[t]:
                 t_position = test[1]
                 if t_position > max_position:
                     max_position = t_position
@@ -150,16 +150,17 @@ def find_max(tests, tlist): # might need to fix tlist as its a dictionary now
 #for each test in the pre or sub list find the position of that test in the main tests!
 # compute the test with the min postion in tests
 
-def find_min(tests, tlist): # might need to fix tlist as its a dictionary now
+# def find_min(tests, test, tlist)
+def find_min(tests, tlist): # might need to fix tlist as its a dictionary now # can use key to point to value now.
 #    print xpos
     if tlist == []:
         return len(tests) + 1
     min_position = len(tests) + 1
 #    print min_position
 
-    for t in tlist:
+    for t in tlist: #tlist is a dictionary now
         for test in tests:
-            if test[0] == t:
+            if test[0] == tlist[t]:
                 t_position = test[1]
                 if t_position < min_position:
                     min_position = t_position
@@ -194,27 +195,19 @@ def reorder(tests,pre_tests,sub_tests):
         x_prob_fail= float(rx[2])
         delta_max = 0
         delta_max_test = 0
-        xsublen = len(rx[3:])
-        xlen = len(rx)
-        xppos = (xlen - xsublen)
+
         for ry in tests:
             new = 0
             ypos = ry[1]
             y_prob_fail = float(ry[2])
-            ysublen = len(ry[3:])
-            ylen = len(ry)
-            yppos = (ylen - ysublen)
+
             if rx != ry:
                 if xpos < ypos:
-#                    print 'ry'
-#                    print ry[1],ry,ry[0]
+#                    print 'else xpos < ypos'
                     rx_sub_test_minpos = find_min(tests, sub_tests)
                     ry_pre_test_maxpos = find_max(tests, pre_tests) # FIND MAX find_max(tests, ry, pre_tests[])
-#                    print 'xpos < ypos'
                     if xpos > ry_pre_test_maxpos and ypos < rx_sub_test_minpos:
-#                        print 'xpos < ry_pre_test_maxpos and ypos > rx_sub_test_minpos'
                         if x_prob_fail < x_prob_fail:
-#                            print 'x_prob_fail < x_prob_fail'
                             # new value of decrease in time by doing swapping
                             # difference in test positions - difference in porbability of a test failing
                             new = (x_prob_fail - x_prob_fail) * (xpos - ypos)
@@ -229,9 +222,7 @@ def reorder(tests,pre_tests,sub_tests):
                     rx_pre_test_maxpos = find_max(tests, pre_tests) # FIND MAX find_max(tests, rx, pre_tests[])
 
                     if ypos > rx_pre_test_maxpos and xpos < ry_sub_test_minpos:
-#                        print 'else: ypos < rx_pre_test_maxpos and xpos > ry_sub_test_minpos:'
                         if x_prob_fail < xpos:
-#                            print 'else: x_prob_fail < xpos'
                             new = (x_prob_fail - x_prob_fail) * (xpos - ypos)
 #                            print new
                             if delta_max < new:
