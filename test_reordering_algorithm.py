@@ -117,17 +117,17 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
     for r in ptests:
         r = r.split(',')
         pre_list = r[3:]
-        print "pre_list"
-        print pre_list
+#        print "pre_list"
+#        print pre_list
         sublen = len(pre_list)
         tname = r[0]
-        print "tname in pre_tests" + tname
+#        print "tname in pre_tests" + tname
         pre_tests[tname] = []
-        print "Finding all dependencies for " + tname
+#        print "Finding all dependencies for " + tname
         if len(pre_list) == 1 and pre_list[0] == '':
             print "No known dependencies for " + tname + ", skipping"
         #    return # with this return it skips finding dependencies if pre_list is empty
-        print pre_list
+#        print pre_list
         for t in pre_list:
     #        t = t.split(',') #newly added for splitting, because t was printing and storing the commas as values
             print 'storing {} as a dependency for {}'.format(t,tname)
@@ -156,7 +156,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 def find_max(tests, pos, tlist): # might need to fix tlist as its a dictionary now # can use key to point to value now.
 
     print "=== Finding MAX position for dependency list ==="
-    print tlist
+#    print tlist
 
     if tlist == []:
         return -1
@@ -167,10 +167,10 @@ def find_max(tests, pos, tlist): # might need to fix tlist as its a dictionary n
             test = test.split(',')
             if test[0] == t:
                 t_position = test[1]
-                print "test position: " + t_position
+    #            print "test position: " + t_position
                 if int(t_position) > int(max_position):
                     max_position = t_position
-                    print max_position
+    #                print max_position
 
     print "Max position for list: "
     print max_position
@@ -192,24 +192,47 @@ def find_min(tests, pos, tlist):
     print min_position
 
     for t in tlist:
-        print t
         for test in tests:
             test = test.split(',')
-            print test
             if test[0] == t:
                 t_position = test[1]
-                print "test position: " + t_position
-                print min_position
+#                print "test position: " + t_position
+#                print min_position
                 if int(t_position) < int(min_position):
                     min_position = t_position
                     print min_position
 
-
     print "Min postion for list: "
-    print min_position
+#    print min_position
     return min_position
 
 ########################### END OF COMPUTING MAX AND MIN VALUES ############################
+
+######### find POSITION #############
+
+def find_xpos(tests,tx):
+    tlen = len(tests)
+    print 'Finding postion of x for swapping'
+
+    for i in range(tlen):
+        for t in tests:
+            if tx[0] == t[0]:
+                xpos = i
+#    print xpos
+    return int(xpos)
+
+
+def find_ypos(tests,ty):
+    tlen = len(tests)
+    print 'finding positon of y for swapping'
+
+    for i in range(tlen):
+        for t in tests:
+            if ty[0] == t[0]:
+                ypos = i
+#    print ypos
+    return int(ypos)
+
 
 ##################################### SWAPPING TESTS #######################################
 #tests is the array of tests
@@ -217,13 +240,18 @@ def find_min(tests, pos, tlist):
 # ry positon of test y
 def swap(tests, tx, ty):
     print "Swapping is Valid, therefore SWAPPING tests:"
-    print tx, ty
+#    print tx, ty
     temp = []
-    print 'SWAP'
-    temp = tx
-    tx = ty
-    ty = temp
-    print tx, ty
+    xpos = find_xpos(tests,tx)
+    ypos = find_ypos(tests,ty)
+    #    temp = tx
+    temp = tests[xpos]
+    #  tx = ty
+    tests[xpos] = tests[ypos]
+    # ty = temp
+    tests[ypos] = temp
+#    print tests
+
 
 ##################################### REORDER ALGORITHM #######################################
 #Using Lists
@@ -232,71 +260,67 @@ def reorder(tests,pre_tests,sub_tests):
 #    print tests
     for rx in tests:
         rx = rx.split(',')
-        print rx
         txname = rx[0]
         xpos = int(rx[1])
-        print xpos
         x_prob_fail= float(rx[2])
         delta_max = 0
         delta_max_test = 0
         for ry in tests:
-            print ry
             ry = ry.split(',')
-            print ry
             tyname = ry[0]
             delta_new= 0
             ypos = int(ry[1])
-            print ypos
             y_prob_fail = float(ry[2])
             if rx != ry:
                 if xpos < ypos:
-                    print 'xpos < ypos'
-                    print 'sub_tests testname : '
-                    print sub_tests[txname]
+            #        print 'xpos < ypos'
+            #        print 'sub_tests testname : '
+            #        print sub_tests[txname]
                     rx_sub_test_minpos = int(find_min(tests, xpos, sub_tests[txname]))
                     ry_pre_test_maxpos = int(find_max(tests, ypos, pre_tests[tyname]))
-                    print "print max and min"
-                    print rx_sub_test_minpos
-                    print ry_pre_test_maxpos
+                #    print "print max and min"
+                #    print rx_sub_test_minpos
+                #    print ry_pre_test_maxpos
                     if int(xpos) > int(ry_pre_test_maxpos) and int(ypos) < int(rx_sub_test_minpos):
                         print "Comparing positions of tests for swapping"
                         if float(y_prob_fail) > float(x_prob_fail) :
                             # new value of decrease in time by doing swapping
                             # difference in test positions - difference in porbability of a test failing
                             delta_new = (y_prob_fail - x_prob_fail) * (ypos - xpos)
-                            print "delta new "
-                            print delta_new
+                    #        print "delta new "
+                    #        print delta_new
                             if delta_max < delta_new:
                                 delta_max = delta_new
                                 delta_max_test = ry
 #                                print delta_max_test
-                                print "DELTA MAX = "
-                                print delta_max
+                    #            print "DELTA MAX = "
+                    #            print delta_max
                 else:
-                    print 'xpos > ypos'
-                    print 'sub_tests test name : '
-                    print sub_tests[txname]
+                #    print 'xpos > ypos'
+                #    print 'sub_tests test name : '
+                #    print sub_tests[txname]
                     ry_sub_test_minpos = int(find_min(tests, ry, sub_tests[txname]))
                     rx_pre_test_maxpos = int(find_max(tests, rx, pre_tests[txname]))
-                    print "print max and min"
-                    print ry_sub_test_minpos
-                    print rx_pre_test_maxpos
+                #    print "print max and min"
+                #    print ry_sub_test_minpos
+                #    print rx_pre_test_maxpos
                     if int(ypos) > int(rx_pre_test_maxpos) and int(xpos) < int(ry_sub_test_minpos):
                         print "Comparing positions of tests for swapping"
                         if float(x_prob_fail) > float(y_prob_fail) :
                             delta_new = (x_prob_fail - y_prob_fail) * (xpos - ypos)
-                            print "delta new "
-                            print delta_new
+                        #    print "delta new "
+                        #    print delta_new
                             if delta_max < delta_new:
                                 delta_max = delta_new
                                 delta_max_test = ry # the whole test and its elements
-                                print "DELTA MAX = "
-                                print delta_max
+                        #        print "DELTA MAX = "
+                        #        print delta_max
 
 #            print tests
 
         if delta_max > 0:
             swap(tests, rx, delta_max_test)
+    #        swaptests(tests, rx, delta_max_test)
 
         else:
             continue
@@ -319,6 +343,15 @@ def main():
     reorder(tests, pre_tests, sub_tests)
     print tests
 
+    sorted_tests = sorted(tests, key=operator.itemgetter(2))
+    print "Sorted based on Test Position number: "
+    print sorted_tests
+
+    #f = open(“sorted_testlist.csv”, “w”)
+
+    #for s in sorted_list:
+#    with open('sorted_testlist.csv', 'wb') as f:
+#        pickle.dump(s, f)
 
 
 if __name__ == '__main__':
