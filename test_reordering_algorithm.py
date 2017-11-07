@@ -347,11 +347,10 @@ def main():
     print "Sorted based on Test Position number: "
     print sorted_tests
 
-    #f = open(“sorted_testlist.csv”, “w”)
 
-    #for s in sorted_list:
-#    with open('sorted_testlist.csv', 'wb') as f:
-#        pickle.dump(s, f)
+    with open('sorted_testlist.csv', 'w') as f:
+        for s in sorted_tests:
+            f.write(s + '\n')
 
 
 if __name__ == '__main__':
