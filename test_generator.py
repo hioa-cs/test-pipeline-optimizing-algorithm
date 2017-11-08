@@ -4,6 +4,7 @@ import sys
 import operator
 import random
 import string
+import csv
 
 no_of_tests = range(7)
 tests = []
@@ -14,14 +15,25 @@ test_data = []
 counter = []
 alltests = []
 
-def write_data(tests):
-    with open('sorted_testlist.csv', 'w') as f:
-        tests = repr(tests)
-        for s in tests:
-            f.write(s + '\n')
 
 def random_char(y):
        return ''.join(random.choice(string.ascii_letters) for x in range(y))
+
+def write_data(tests):
+    # with open('sorted_testlist.csv', 'w') as f:
+    #
+            testing = csv.writer(open('datasets/testdataset.csv', 'wb'), lineterminator='\n')
+            for line in tests:
+                testing.writerow(line)
+    #        testing.writerow(tests)
+    #        print testing
+    #        print '\n'
+    #       s = [x for y in tests for x in y]
+    #        for line in s:
+            #    string = str(line)
+
+            #    print string
+#    return s
 
 def get_tests(testname, counter, prob_fail, dependency):
     test_data = testname + counter + prob_fail + dependency_generator(alltests)   #dependency #+ get_dependencies(alltests)
@@ -82,12 +94,16 @@ def generator():
 #        print prob_fail
         if i > 0:
             dependency = get_dependencies(alltests)
-            print dependency
+    #        print dependency
 
         test_data = testname + counter + prob_fail + dependency #+ get_dependencies(alltests)
-        print test_data
+        tests.append(test_data)
 
-    return testname, counter, prob_fail
+
+    return tests
+
+
+#    return testname, counter, prob_fail
 #        test_data = testname + counter + prob_fail + dependency #+ get_dependencies(alltests)
 #        print test_data
 #        tests.append(test_data)
@@ -95,12 +111,9 @@ def generator():
 
 def main():
 
-    generator()
-#    dependency_generator(alltests)
-#    get_tests(testname, counter, prob_fail, dependency)
-
-
-#    write_data(tests)
+    testset = generator()
+#    print testset
+    write_data(testset)
 
 if __name__ == '__main__':
     main()
