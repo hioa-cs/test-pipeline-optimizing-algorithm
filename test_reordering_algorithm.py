@@ -111,7 +111,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 #    print 'Compute pre test'
 #    print ptests
     # pre_list = is an empty list that is assigned the r[3:] list of dependencies as found in ptests[]
-    print "======== STARTS COMPUTING PRE-TESTS ======="
+    print "======= STARTS COMPUTING PRE-TESTS ======="
     pre_list = []
 
     for r in ptests:
@@ -213,24 +213,32 @@ def find_min(tests, pos, tlist):
 def find_xpos(tests,tx):
     tlen = len(tests)
     print 'Finding postion of x for swapping'
+    i = 0
 
-    for i in range(tlen):
-        for t in tests:
-            if tx[0] == t[0]:
-                xpos = i
-#    print xpos
+    for t in tests:
+        if tx[0] == t[0]:
+            print t[0]
+            print tx[0]
+            xpos = i
+        i = i+1
+    print xpos
     return int(xpos)
 
 
 def find_ypos(tests,ty):
     tlen = len(tests)
     print 'finding positon of y for swapping'
-
-    for i in range(tlen):
-        for t in tests:
-            if ty[0] == t[0]:
-                ypos = i
-#    print ypos
+    i = 0
+#    for i in range(tlen):
+#        print i
+    for t in tests:
+        print t
+        if ty[0] == t[0]:
+            print t[0]
+            print ty[0]
+            ypos = i
+        i = i+1
+    print ypos
     return int(ypos)
 
 
@@ -240,17 +248,20 @@ def find_ypos(tests,ty):
 # ry positon of test y
 def swap(tests, tx, ty):
     print "Swapping is Valid, therefore SWAPPING tests:"
-#    print tx, ty
+    print tx, ty
     temp = []
+    t = []
     xpos = find_xpos(tests,tx)
     ypos = find_ypos(tests,ty)
-    #    temp = tx
+    print xpos, ypos
+#    t = tx
     temp = tests[xpos]
-    #  tx = ty
+#    tx = ty
     tests[xpos] = tests[ypos]
-    # ty = temp
+#    ty = t
     tests[ypos] = temp
-#    print tests
+#    print tx, ty
+    return tests
 
 
 ##################################### REORDER ALGORITHM #######################################
@@ -276,11 +287,13 @@ def reorder(tests,pre_tests,sub_tests):
             #        print 'xpos < ypos'
             #        print 'sub_tests testname : '
             #        print sub_tests[txname]
+                    # if there are no dependencies these functions return zero
                     rx_sub_test_minpos = int(find_min(tests, xpos, sub_tests[txname]))
                     ry_pre_test_maxpos = int(find_max(tests, ypos, pre_tests[tyname]))
                 #    print "print max and min"
                 #    print rx_sub_test_minpos
                 #    print ry_pre_test_maxpos
+                # if there are no dependencies at all the loop fails to continue
                     if int(xpos) > int(ry_pre_test_maxpos) and int(ypos) < int(rx_sub_test_minpos):
                         print "Comparing positions of tests for swapping"
                         if float(y_prob_fail) > float(x_prob_fail) :
@@ -314,16 +327,16 @@ def reorder(tests,pre_tests,sub_tests):
                                 delta_max = delta_new
                                 delta_max_test = ry # the whole test and its elements
                         #        print "DELTA MAX = "
-                        #        print delta_max
+                                print delta_max_test
 
 #            print tests
 
         if delta_max > 0:
             swap(tests, rx, delta_max_test)
-    #        swaptests(tests, rx, delta_max_test)
+            print tests
+#        else:
+#            continue
 
-        else:
-            continue
     print " ====== Finished Running Reorder Algorithm ======"
     print " ====== Returning delta_max ======"
     print delta_max
@@ -340,17 +353,21 @@ def main():
     compute_subtest(tests,pre_tests)
     print "sub_tests:"
     print sub_tests
+    print "before swapping"
+    print tests
     reorder(tests, pre_tests, sub_tests)
+    print "after sswapping:"
     print tests
 
-    sorted_tests = sorted(tests, key=operator.itemgetter(2))
-    print "Sorted based on Test Position number: "
-    print sorted_tests
+#    sorted_tests = sorted(tests, key=operator.itemgetter(2))
+#    print "Sorted based on Test Position number: "
+#    print sorted_tests
 
+#    print "Storing sorted list to sorted_testlist.csv"
 
-    with open('sorted_testlist.csv', 'w') as f:
-        for s in sorted_tests:
-            f.write(s + '\n')
+#    with open('sorted_testlist.csv', 'w') as f:
+#        for s in sorted_tests:
+#            f.write(s + '\n')
 
 
 if __name__ == '__main__':
