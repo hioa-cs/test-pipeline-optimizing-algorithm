@@ -141,17 +141,13 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 #    print pre_tests
     return pre_tests
 
-
 ######################### END of Getting pre_tests - dependencies for test #####################
-
 
 ########################### COMPUTING MAX AND MIN VALUES ########################################
 
 #call with - find_max(tests, subsequent_tests/ pre_tests)
 # for each test in the pre or sub list find the position of that test in the main tests!
 # from that compute the test with the max position in tests
-
-# def find_max(tests, test, tlist)
 
 def find_max(tests, pos, tlist): # might need to fix tlist as its a dictionary now # can use key to point to value now.
 
@@ -180,7 +176,6 @@ def find_max(tests, pos, tlist): # might need to fix tlist as its a dictionary n
 # for each test in the pre or sub list find the position of that test in the main tests!
 # compute the test with the min postion in tests
 
-# def find_min(tests, test, tlist)
 def find_min(tests, pos, tlist):
 
     print "=== Finding MIN position for dependency list ==="
@@ -208,18 +203,22 @@ def find_min(tests, pos, tlist):
 
 ########################### END OF COMPUTING MAX AND MIN VALUES ############################
 
-######### find POSITION #############
+############ find POSITION #############
 
 def find_xpos(tests,tx):
     tlen = len(tests)
-    print 'Finding postion of x for swapping'
+    print 'Finding position of x for swapping'
     i = 0
+#    print tests
 
     for t in tests:
-        if tx[0] == t[0]:
-            print t[0]
-            print tx[0]
+        print t
+        print tx
+        print t[0:2]
+        print tx[0]
+        if tx[0] == t[0:2]:
             xpos = i
+
         i = i+1
     print xpos
     return int(xpos)
@@ -227,13 +226,13 @@ def find_xpos(tests,tx):
 
 def find_ypos(tests,ty):
     tlen = len(tests)
-    print 'finding positon of y for swapping'
+    print 'finding position of y for swapping'
     i = 0
 #    for i in range(tlen):
 #        print i
     for t in tests:
         print t
-        if ty[0] == t[0]:
+        if ty[0] == t[0:2]:
             print t[0]
             print ty[0]
             ypos = i
@@ -268,7 +267,7 @@ def swap(tests, tx, ty):
 #Using Lists
 def reorder(tests,pre_tests,sub_tests):
     print " ====== ***** Running Reorder Algorithm ***** ======"
-#    print tests
+    print tests
     for rx in tests:
         rx = rx.split(',')
         txname = rx[0]
@@ -328,8 +327,6 @@ def reorder(tests,pre_tests,sub_tests):
                                 delta_max_test = ry # the whole test and its elements
                         #        print "DELTA MAX = "
                                 print delta_max_test
-
-#            print tests
 
         if delta_max > 0:
             swap(tests, rx, delta_max_test)
