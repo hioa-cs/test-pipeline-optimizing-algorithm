@@ -20,26 +20,10 @@ def random_char(y):
        return ''.join(random.choice(string.ascii_letters) for x in range(y))
 
 def write_data(tests):
-    # with open('sorted_testlist.csv', 'w') as f:
-    #
-            testing = csv.writer(open('datasets/testdataset.csv', 'wb'), lineterminator='\n')
-            for line in tests:
-                testing.writerow(line)
-    #        testing.writerow(tests)
-    #        print testing
-    #        print '\n'
-    #       s = [x for y in tests for x in y]
-    #        for line in s:
-            #    string = str(line)
 
-            #    print string
-#    return s
-
-def get_tests(testname, counter, prob_fail, dependency):
-    test_data = testname + counter + prob_fail + dependency_generator(alltests)   #dependency #+ get_dependencies(alltests)
-    print test_data
-    tests.append(test_data)
-    print tests
+    testing = csv.writer(open('datasets/testdataset.csv', 'wb'), lineterminator='\n')
+    for line in tests:
+        testing.writerow(line)
 
 
 def get_testnames():
@@ -59,24 +43,14 @@ def get_probabilities():
 
 def get_dependencies(alltests,testname):
 #    print alltests
-#    dependency = [[] for _ in range(3)]
     dependency = []
     for i in range(1):
         dep = random.choice(alltests)
         if dep not in dependency and dep != testname:
             dependency.append(dep)
 
-#        if dep == ' ':
-#            dependency.append(dep)
-
     dependencies = [x for y in dependency for x in y]
     return dependencies
-
-def dependency_generator(alltests):
-    dependency = []
-    for i in no_of_tests:
-        dependency = get_dependencies(alltests)
-    return dependency
 
 def get_counter(i):
     counter = i+1
@@ -93,24 +67,16 @@ def generator():
         alltests.append(testname)
         counter = get_counter(i)
 #        print counter
-        prob_fail = get_probabilities() #['0.5']# get_probabilities()
+        prob_fail = get_probabilities() #['0.5']
 #        print prob_fail
         if i > 0:
             dependency = get_dependencies(alltests,testname)
     #        print dependency
-
-        test_data = testname + counter + prob_fail + dependency #+ get_dependencies(alltests)
+        test_data = testname + counter + prob_fail + dependency
         tests.append(test_data)
-
 
     return tests
 
-
-#    return testname, counter, prob_fail
-#        test_data = testname + counter + prob_fail + dependency #+ get_dependencies(alltests)
-#        print test_data
-#        tests.append(test_data)
-#        print tests
 
 def main():
 
