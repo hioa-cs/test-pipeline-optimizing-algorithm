@@ -61,7 +61,7 @@ def get_dependencies(alltests,testname):
 #    print alltests
 #    dependency = [[] for _ in range(3)]
     dependency = []
-    for i in range(3):
+    for i in range(1):
         dep = random.choice(alltests)
         if dep not in dependency and dep != testname:
             dependency.append(dep)
