@@ -117,6 +117,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
     for r in ptests:
         r = r.split(',')
         pre_list = r[3:]
+        print ptests
 #        print "pre_list"
 #        print pre_list
         sublen = len(pre_list)
@@ -129,6 +130,8 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
         #    return # with this return it skips finding dependencies if pre_list is empty
 #        print pre_list
         for t in pre_list:
+            print pre_list
+            print t
     #        t = t.split(',') #newly added for splitting, because t was printing and storing the commas as values
             print 'storing {} as a dependency for {}'.format(t,tname)
             pre_tests[tname].append(t)
@@ -198,7 +201,7 @@ def find_min(tests, pos, tlist):
                     print min_position
 
     print "Min postion for list: "
-#    print min_position
+    print min_position
     return min_position
 
 ########################### END OF COMPUTING MAX AND MIN VALUES ############################
@@ -232,7 +235,7 @@ def find_ypos(tests,ty):
 #        print i
     for t in tests:
         print t
-        if ty[0] == t[0:2]:
+        if ty[0] == t[0:2]: # testname sizes can't be limited to 1 or 2 letters?
             print t[0]
             print ty[0]
             ypos = i
@@ -326,11 +329,12 @@ def reorder(tests,pre_tests,sub_tests):
                                 delta_max = delta_new
                                 delta_max_test = ry # the whole test and its elements
                         #        print "DELTA MAX = "
-                                print delta_max_test
+                        #        print delta_max_test
 
         if delta_max > 0:
-            swap(tests, rx, delta_max_test)
+            tests = swap(tests, rx, delta_max_test)
             print tests
+
 #        else:
 #            continue
 
@@ -353,7 +357,7 @@ def main():
     print "before swapping"
     print tests
     reorder(tests, pre_tests, sub_tests)
-    print "after sswapping:"
+    print "after swapping:"
     print tests
 
 #    sorted_tests = sorted(tests, key=operator.itemgetter(2))
