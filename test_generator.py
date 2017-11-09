@@ -66,6 +66,9 @@ def get_dependencies(alltests,testname):
         if dep not in dependency and dep != testname:
             dependency.append(dep)
 
+#        if dep == ' ':
+#            dependency.append(dep)
+
     dependencies = [x for y in dependency for x in y]
     return dependencies
 
