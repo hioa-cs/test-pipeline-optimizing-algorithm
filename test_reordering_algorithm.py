@@ -360,6 +360,16 @@ def main():
     print "after swapping:"
     print tests
 
+    print "Storing sorted list to sorted_testlist.csv"
+
+    with open('datasets/sorted_testlist.csv', 'w') as f:
+        for s in tests:
+            f.write(s + '\n')
+# ONCE the test and swapping is done the test position in file only shows the
+# before positions. Therefore no further sorting in recommended.
+
+
+
 #    sorted_tests = sorted(tests, key=operator.itemgetter(2))
 #    print "Sorted based on Test Position number: "
 #    print sorted_tests
