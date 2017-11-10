@@ -15,6 +15,7 @@ dependency = []
 test_data = []
 counter = []
 alltests = []
+copytests = []
 
 
 def random_char(y):
@@ -28,7 +29,7 @@ def write_data(tests):
 
 
 def get_testnames():
-    testname = random_char(2)
+    testname = random_char(40)
     testname = testname.split(',')
 #    print testname
     return testname
@@ -80,12 +81,12 @@ def generator():
 
     return tests
 
-
 def main():
 
     testset = generator()
 #    print testset
     write_data(testset)
+
 
 if __name__ == '__main__':
     main()

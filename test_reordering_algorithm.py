@@ -205,8 +205,8 @@ def find_xpos(tests,tx):
     print 'Finding position of x for swapping'
     i = 0
     for t in tests:
-        if tx[0] == t[0:2]:
-            print t[0:2]
+        if tx[0] == t[0:40]:
+            print t[0:40]
             print tx[0]
             xpos = i
         i = i+1
@@ -219,8 +219,8 @@ def find_ypos(tests,ty):
     print 'finding position of y for swapping'
     i = 0
     for t in tests:
-        if ty[0] == t[0:2]:
-            print t[0:2]
+        if ty[0] == t[0:40]:
+            print t[0:40]
             print ty[0]
             ypos = i
         i = i+1
