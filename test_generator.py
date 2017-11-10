@@ -6,7 +6,8 @@ import random
 import string
 import csv
 
-no_of_tests = range(7)
+num = int(sys.argv[1])
+no_of_tests = range(num)
 tests = []
 testname = []
 prob_fail = []
