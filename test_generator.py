@@ -45,10 +45,10 @@ def get_probabilities():
 def get_dependencies(alltests,testname):
 #    print alltests
     dependency = []
-    for i in range(1):
-        dep = random.choice(alltests)
-        if dep not in dependency and dep != testname:
-            dependency.append(dep)
+#    for i in range(1):
+    dep = random.choice(alltests)
+    if dep not in dependency and dep != testname:
+        dependency.append(dep)
 
     dependencies = [x for y in dependency for x in y]
     return dependencies
@@ -72,6 +72,8 @@ def generator():
 #        print prob_fail
         if i > 0:
             dependency = get_dependencies(alltests,testname)
+            if not dependency:
+                dependency = get_dependencies(alltests,testname)
     #        print dependency
         test_data = testname + counter + prob_fail + dependency
         tests.append(test_data)
