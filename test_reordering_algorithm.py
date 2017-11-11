@@ -340,6 +340,13 @@ def main():
         for s in tests:
             f.write(s + '\n')
 
+    text_file = open("datasets/output.txt", "w")
+    text_file.write("\n")
+    text_file.write("Test file used: {}".format(filename))
+    text_file.write("\n")
+    text_file.write("Total time taken: {}".format(timetaken))
+    text_file.write("\n")
+    text_file.close()
 # ONCE the test and swapping is done the test position in file only shows the
 # before positions. Therefore no further sorting in recommended.
 
