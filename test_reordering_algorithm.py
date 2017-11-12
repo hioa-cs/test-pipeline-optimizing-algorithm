@@ -182,9 +182,9 @@ def find_min(tests, pos, tlist):
     print min_position
 
     for t in tlist:
-        i = 0
+    #    i = 0
         for test in tests:
-            i = i + 1
+            i = tests.index(test)+1
             test = test.split(',')
             if test[0] == t:
                 t_position = int(i)
@@ -209,7 +209,7 @@ def find_xpos(tests,tx):
             print t[0:40]
             print tx[0]
             xpos = i
-        i = i+1
+        i = tests.index(t)+1
     print xpos
     return int(xpos)
 
@@ -223,7 +223,7 @@ def find_ypos(tests,ty):
             print t[0:40]
             print ty[0]
             ypos = i
-        i = i+1
+        i = tests.index(t)+1
     print ypos
     return int(ypos)
 
@@ -253,14 +253,14 @@ def reorder(tests,pre_tests,sub_tests):
     print tests
     i = 0
     for rx in tests:
-        i = i + 1
+        i = tests.index(rx)+1
         rx = rx.split(',')
         txname = rx[0]
         xpos = int(i)
         x_prob_fail= float(rx[2])
         j = 0
         for ry in tests:
-            j = j + 1
+            j = tests.index(ry)+1
             delta_max = 0
             delta_max_test = 0
             ry = ry.split(',')
@@ -326,26 +326,26 @@ def main():
     print tests
 
     print "Storing sorted list to sorted_testdataset.csv"
-    timestr = time.strftime("%H%M%S")
 
     endtime = time.time()
     print "End time :", endtime
 
-    timetaken = float(endtime - starttime)
-    print "total time taken: ", timetaken
+    timetaken = endtime - starttime
+    print "total time taken in seconds: ", timetaken
 
-    outfile_name = '{0}{1}{2}{3}'.format(filename,"sorted_",timestr,".csv")
+    #timestr = time.strftime("%H%M%S")
+    outfile_name = '{0}{1}{2}'.format(filename,"_sorted",".csv")
 #    with open('datasets/sorted_testdataset.csv', 'w') as f:
     with open(outfile_name, 'w') as f:
         for s in tests:
             f.write(s + '\n')
 
-    text_file = open("datasets/output.txt", "w")
-    text_file.write("\n")
-    text_file.write("Test file used: {}".format(filename))
-    text_file.write("\n")
-    text_file.write("Total time taken: {}".format(timetaken))
-    text_file.write("\n")
+    outcomputationfile = '{0}{1}'.format(filename,"_time.txt")
+    text_file = open(outcomputationfile, 'w')
+    text_file.write("Test file used: {}\n".format(filename))
+    text_file.write("Start time: {}\n".format(starttime))
+    text_file.write("End time: {}\n".format(endtime))
+    text_file.write("Total time taken: {} seconds.\n".format(timetaken))
     text_file.close()
 # ONCE the test and swapping is done the test position in file only shows the
 # before positions. Therefore no further sorting in recommended.

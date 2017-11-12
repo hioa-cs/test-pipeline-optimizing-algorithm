@@ -5,6 +5,7 @@ import operator
 import random
 import string
 import csv
+import time
 
 num = int(sys.argv[1])
 no_of_tests = range(num)
@@ -22,8 +23,9 @@ def random_char(y):
        return ''.join(random.choice(string.ascii_letters) for x in range(y))
 
 def write_data(tests):
-
-    testing = csv.writer(open('datasets/testdataset.csv', 'wb'), lineterminator='\n')
+    timestr = time.strftime("%H%M%S")
+    testfilename = 'datasets/testdataset_{0}{1}'.format(timestr,".csv")
+    testing = csv.writer(open(testfilename, 'wb'), lineterminator='\n')
     for line in tests:
         testing.writerow(line)
 
