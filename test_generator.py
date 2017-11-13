@@ -1,5 +1,8 @@
 #! /usr/bin/env python
 
+# this scipt generates the number of dataset given as input with the number of
+# dependency per test given as input.
+
 import sys
 import operator
 import random
@@ -8,6 +11,8 @@ import csv
 import time
 
 num = int(sys.argv[1])
+no_of_dep = int(sys.argv[2])
+multidep = range(no_of_dep)
 no_of_tests = range(num)
 tests = []
 testname = []
@@ -24,7 +29,7 @@ def random_char(y):
 
 def write_data(tests):
     timestr = time.strftime("%H%M%S")
-    testfilename = 'datasets/testdataset_{0}{1}'.format(timestr,".csv")
+    testfilename = 'datasets/testdataset_multidep_{0}{1}'.format(timestr,".csv")
     testing = csv.writer(open(testfilename, 'wb'), lineterminator='\n')
     for line in tests:
         testing.writerow(line)
@@ -48,10 +53,10 @@ def get_probabilities():
 def get_dependencies(alltests,testname):
 #    print alltests
     dependency = []
-#    for i in range(1):
-    dep = random.choice(alltests)
-    if dep not in dependency and dep != testname:
-        dependency.append(dep)
+    for i in multidep:
+        dep = random.choice(alltests)
+        if dep not in dependency and dep != testname:
+            dependency.append(dep)
 
     dependencies = [x for y in dependency for x in y]
     return dependencies
