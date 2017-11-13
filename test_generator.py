@@ -12,11 +12,9 @@ import time
 
 num = int(sys.argv[1])
 no_of_dep = int(sys.argv[2])
-<<<<<<< HEAD
-tfilename = sys.argv[3]
-=======
+#tfilename = sys.argv[3]
 arg_filename = str(sys.argv[3])
->>>>>>> 5837ab365fe267f64405bf99a641aa4eeacf2cb4
+
 multidep = range(no_of_dep)
 no_of_tests = range(num)
 tests = []
