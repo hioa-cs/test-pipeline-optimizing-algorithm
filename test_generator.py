@@ -36,8 +36,8 @@ def write_data(tests):
 
 
 def get_testnames(testnum):
-    testname = testnum
-    testname = str(testname)
+    testname = '%010d' % testnum
+#    testname = str(testname)
     testname = testname.split(',')
     return testname
 
