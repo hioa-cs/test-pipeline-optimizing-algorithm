@@ -51,7 +51,7 @@ def get_subtest(testkey,pre_tests,k,origin):
     for tname in ptest:
         if tname == k:            
             if not testkey in sub_tests[origin]:
-                print 'storing {} as a subtest for {} in get_subtest'.format(testkey, origin)
+                # print 'storing {} as a subtest for {} in get_subtest'.format(testkey, origin)
                 sub_tests[origin].append(testkey)
             for ktest in pre_tests:
                 get_subtest(ktest,pre_tests,testkey,origin)
@@ -66,16 +66,17 @@ def compute_subtest(tests,pre_tests):
             if tname == '' :
                 print "No known pre test for " + k + ", skipping"
             else:
-                print "tname " + tname
+                #print "tname " + tname
                 if not tname in sub_tests:
                     sub_tests[tname] = []
                 print "tname in compute sub_tests " + tname                
                 if not k in sub_tests[tname]:
-                    print 'storing {} as a subtest for {}'.format(k, tname)
+                    #print 'storing {} as a subtest for {}'.format(k, tname)
                     sub_tests[tname].append(k)
                 # print sub_tests
                 for ktest in pre_tests:
-                    get_subtest(ktest,pre_tests,k,tname)
+                    if not ktest + ":" + k + ":" + tname in sub_tests[tname]:
+                        get_subtest(ktest,pre_tests,k,tname)
 
     for k in pre_tests:
         if not k in sub_tests:
