@@ -5,11 +5,15 @@ import operator
 import random
 import string
 import csv
+import time
 
 filename = sys.argv[1]
+users = int(sys.argv[2])
+no_of_users = range(users)
 
 tests = []
 newtests = []
+testsnew = []
 
 # need same testset for all user with different prob_fail value
 # so that we can sort for each user to see how much it optimizes per user.
@@ -37,15 +41,27 @@ def set_new_prob(tests): # in progress
 #    pos = tests.index(test)
     for test in tests:
         pos = tests.index(test)
-        print pos
+#        print pos
         test = test.split(',')
-    #    new_prob = get_probabilities()
-    #    test[2] = new_prob
-    #    print test[2]
+        new_prob = 0
+        new_prob = get_probabilities()
+#        testnew = []
+    #    testnew = test[0], test[1], new_prob[0], test[3:]
+    #    tests[pos] = list(testnew) #test[0], test[1], new_prob[0], test[3:]
+    #    testsnew.append(list(testnew))
+        if not test[3:]:
+            dep = ' '
+            print "space"
+        else:
+            dep = test[3] # works for one dependency
+#        print dep
+        tests[pos] = test[0], test[1], new_prob[0], dep # test[3:]
+#    print tests
+    return tests
 
-def write_data(newtests):
+def write_data(newtests,i):
     timestr = time.strftime("%H%M%S")
-    testfilename = 'datasets/testdataset_{0}{1}'.format(timestr,".csv")
+    testfilename = 'datasets/testdataset_{0}{1}{2}{3}'.format(timestr,"_USER_",i,".csv")
     testing = csv.writer(open(testfilename, 'wb'), lineterminator='\n')
     for line in tests:
         testing.writerow(line)
@@ -53,17 +69,25 @@ def write_data(newtests):
 
 def main():
 
-    get_data(filename)
 #    print tests
-    set_new_prob(tests)
-#    write_data(tests)
+#    print "\n"
 
-    outfile_name = '{0}{1}{2}'.format(filename,"_USER",".csv")
-#    with open('datasets/sorted_testdataset.csv', 'w') as f:
-    with open(outfile_name, 'w') as f:
-        for s in newtests:
-            f.write(s + '\n')
+    i = 1
+    get_data(filename)
+    newtests = set_new_prob(tests)
+    #    print newtests
+    write_data(newtests,i)
 
+    for i in no_of_users :
+        del tests[:]
+#        tests[:] = []
+        newtests[:] = []
+        i += 1
+
+        get_data(filename)
+        newtests = set_new_prob(tests)
+        #    print newtests
+        write_data(newtests,i)
 
 if __name__ == '__main__':
     main()
