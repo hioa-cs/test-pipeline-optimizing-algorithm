@@ -14,7 +14,7 @@ pre_tests = {}
 sub_tests = {}
 sub_tests_combo = []
 global no_of_swap
-
+no_of_swap = 0
 
 ######################### GETTING TESTS from FILE #########################
 
@@ -260,7 +260,7 @@ def swap(tests, tx, ty): # tx and ty contains list of each test
 ##################################### REORDER ALGORITHM #######################################
 #Using Lists
 def reorder(tests,pre_tests,sub_tests,no_of_swap):
-    no_of_swap = 0
+
     print " ====== ***** Running Reorder Algorithm ***** ======"
     #print tests
 #    i = 0
@@ -315,17 +315,17 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
         if delta_max > 0:
             #print delta_max
             no_of_swap += 1
+            print no_of_swap
             swap(tests, rx, delta_max_test)
             #print tests
 
     print "====== Finished Running Reorder Algorithm ======"
-    print "no_of_swap" + str(no_of_swap)
+    print "no_of_swap: " + str(no_of_swap)
     return delta_max, no_of_swap
 
 ##################################### END OF REORDER ALGORITHM ####################################
 
 def main():
-    no_of_swap = 0
     starttime = time.time()
     print "Start time :", starttime
 
@@ -338,7 +338,7 @@ def main():
     endofsubtests = time.time() - starttime
     print "sub_tests:"
     #print sub_tests
-    reorder(tests, pre_tests, sub_tests, no_of_swap)
+    delta_max, swapcounter = reorder(tests, pre_tests, sub_tests, no_of_swap)
     endofreordertests = time.time() - starttime
     #print tests
 
@@ -365,7 +365,7 @@ def main():
     text_file.write("End of collecting pretests: {}\n".format(endofsubtests))
     text_file.write("End of reordering tests: {}\n".format(endofreordertests))
     text_file.write("End time: {}\n".format(endtime))
-    text_file.write("No of swaps: {}\n".format(no_of_swap))
+    text_file.write("No of swaps: {}\n".format(swapcounter))
     text_file.write("Total time taken: {} seconds.\n".format(timetaken))
     text_file.close()
 # ONCE the test and swapping is done the test position in file only shows the
