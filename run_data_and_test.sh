@@ -14,5 +14,5 @@ FILENAME=dataset_${TESTS}_${DEPS}.csv
 
 # cat the output
 
-cat $FILENAME_ 
+cat ${FILENAME}_ 
 
