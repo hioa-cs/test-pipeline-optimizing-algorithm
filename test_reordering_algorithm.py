@@ -13,6 +13,7 @@ dataset = []
 pre_tests = {}
 sub_tests = {}
 
+
 ######################### GETTING TESTS from FILE #########################
 
 def get_data(filename): # funtion in class as attribute can be a METHOD
@@ -156,9 +157,9 @@ def find_max(tests, pos, tlist):
     max_position = 0
 
     for t in tlist:
-        i = 0
+    #    i = 0
         for test in tests:
-            i = i + 1
+            i = tests.index(test)+1
             test = test.split(',')
             if test[0] == t:
                 print test[0]
@@ -203,7 +204,7 @@ def find_min(tests, pos, tlist):
 def find_xpos(tests,tx):
     tlen = len(tests)
     print 'Finding position of x for swapping'
-    i = 0
+#    i = 0
     for t in tests:
         if tx[0] == t[0:40]:
             print t[0:40]
@@ -217,7 +218,7 @@ def find_xpos(tests,tx):
 def find_ypos(tests,ty):
     tlen = len(tests)
     print 'finding position of y for swapping'
-    i = 0
+#    i = 0
     for t in tests:
         if ty[0] == t[0:40]:
             print t[0:40]
@@ -230,6 +231,7 @@ def find_ypos(tests,ty):
 
 ##################################### SWAPPING TESTS #######################################
 def swap(tests, tx, ty): # tx and ty contains list of each test
+
     print "Swapping is Valid, therefore SWAPPING tests:"
     temp = []
     t = []
@@ -249,23 +251,24 @@ def swap(tests, tx, ty): # tx and ty contains list of each test
 ##################################### REORDER ALGORITHM #######################################
 #Using Lists
 def reorder(tests,pre_tests,sub_tests):
+    no_of_swap = 0
     print " ====== ***** Running Reorder Algorithm ***** ======"
     print tests
-    i = 0
+#    i = 0
     for rx in tests:
         i = tests.index(rx)+1
         rx = rx.split(',')
         txname = rx[0]
         xpos = int(i)
         x_prob_fail= float(rx[2])
-        j = 0
+#        j = 0
         for ry in tests:
             j = tests.index(ry)+1
             delta_max = 0
             delta_max_test = 0
             ry = ry.split(',')
             tyname = ry[0]
-            delta_new= 0
+            delta_new = 0
             ypos = int(j)
             y_prob_fail = float(ry[2])
             if rx != ry:
@@ -302,11 +305,13 @@ def reorder(tests,pre_tests,sub_tests):
 
         if delta_max > 0:
             print delta_max
+            no_of_swap += 1
             swap(tests, rx, delta_max_test)
             print tests
 
     print "====== Finished Running Reorder Algorithm ======"
-    return delta_max
+    print no_of_swap
+    return delta_max, no_of_swap
 
 ##################################### END OF REORDER ALGORITHM ####################################
 
@@ -345,6 +350,7 @@ def main():
     text_file.write("Test file used: {}\n".format(filename))
     text_file.write("Start time: {}\n".format(starttime))
     text_file.write("End time: {}\n".format(endtime))
+#    text_file.write("No of swaps: {}\n".format(no_of_swap))
     text_file.write("Total time taken: {} seconds.\n".format(timetaken))
     text_file.close()
 # ONCE the test and swapping is done the test position in file only shows the
