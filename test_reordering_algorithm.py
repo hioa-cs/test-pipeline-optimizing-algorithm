@@ -12,6 +12,7 @@ tests = []
 dataset = []
 pre_tests = {}
 sub_tests = {}
+global no_of_swap
 
 
 ######################### GETTING TESTS from FILE #########################
@@ -250,7 +251,7 @@ def swap(tests, tx, ty): # tx and ty contains list of each test
 
 ##################################### REORDER ALGORITHM #######################################
 #Using Lists
-def reorder(tests,pre_tests,sub_tests):
+def reorder(tests,pre_tests,sub_tests,no_of_swap):
     no_of_swap = 0
     print " ====== ***** Running Reorder Algorithm ***** ======"
     print tests
@@ -316,21 +317,24 @@ def reorder(tests,pre_tests,sub_tests):
 ##################################### END OF REORDER ALGORITHM ####################################
 
 def main():
-
+    no_of_swap = 0
     starttime = time.time()
     print "Start time :", starttime
 
     compute_pre_tests(get_data(filename))
+    endofpretests = time.time() - starttime
     print "pre_tests:"
     print pre_tests
     print "======== STARTS COMPUTING SUB TESTS ======="
     compute_subtest(tests,pre_tests)
+    endofsubtests = time.time() - starttime
     print "sub_tests:"
     print sub_tests
-    reorder(tests, pre_tests, sub_tests)
+    reorder(tests, pre_tests, sub_tests, no_of_swap)
+    endofreordertests = time.time() - starttime
     print tests
 
-    print "Storing sorted list to sorted_testdataset.csv"
+    print "Storing sorted list to testdataset_sorted.csv"
 
     endtime = time.time()
     print "End time :", endtime
@@ -349,8 +353,11 @@ def main():
     text_file = open(outcomputationfile, 'w')
     text_file.write("Test file used: {}\n".format(filename))
     text_file.write("Start time: {}\n".format(starttime))
+    text_file.write("End of collectiong subtests: {}\n".format(endofpretests))
+    text_file.write("End of collecting pretests: {}\n".format(endofsubtests))
+    text_file.write("End of reordering tests: {}\n".format(endofreordertests))
     text_file.write("End time: {}\n".format(endtime))
-#    text_file.write("No of swaps: {}\n".format(no_of_swap))
+    text_file.write("No of swaps: {}\n".format(no_of_swap))
     text_file.write("Total time taken: {} seconds.\n".format(timetaken))
     text_file.close()
 # ONCE the test and swapping is done the test position in file only shows the
