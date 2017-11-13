@@ -49,7 +49,7 @@ def get_subtest(testkey,pre_tests,k,origin):
         return
 
     for tname in ptest:
-        if tname == k:            
+        if tname == k:
             if not testkey in sub_tests[origin]:
                 # print 'storing {} as a subtest for {} in get_subtest'.format(testkey, origin)
                 sub_tests[origin].append(testkey)
@@ -69,7 +69,7 @@ def compute_subtest(tests,pre_tests):
                 #print "tname " + tname
                 if not tname in sub_tests:
                     sub_tests[tname] = []
-                print "tname in compute sub_tests " + tname                
+                print "tname in compute sub_tests " + tname
                 if not k in sub_tests[tname]:
                     #print 'storing {} as a subtest for {}'.format(k, tname)
                     sub_tests[tname].append(k)
@@ -215,7 +215,7 @@ def find_xpos(tests,tx):
     #print 'Finding position of x for swapping'
 #    i = 0
     for t in tests:
-        if tx[0] == t[0:40]:
+        if tx[0] == t[0:10]:
             #print t[0:40]
             #print tx[0]
             xpos = i
@@ -229,7 +229,7 @@ def find_ypos(tests,ty):
     #print 'finding position of y for swapping'
 #    i = 0
     for t in tests:
-        if ty[0] == t[0:40]:
+        if ty[0] == t[0:10]:
             #print t[0:40]
             #print ty[0]
             ypos = i
