@@ -15,13 +15,13 @@ no_of_dep = int(sys.argv[2])
 multidep = range(no_of_dep)
 no_of_tests = range(num)
 tests = []
-testname = []
 prob_fail = []
 dependency = []
 test_data = []
 counter = []
 alltests = []
 copytests = []
+testname = []
 
 
 def random_char(y):
@@ -35,10 +35,10 @@ def write_data(tests):
         testing.writerow(line)
 
 
-def get_testnames():
-    testname = random_char(40)
+def get_testnames(testnum):
+    testname = testnum
+    testname = str(testname)
     testname = testname.split(',')
-#    print testname
     return testname
 
 
@@ -46,7 +46,6 @@ def get_probabilities():
     prob_fail = random.uniform(0.0001, 1.0000)
     prob_fail = repr(prob_fail)
     prob_fail = prob_fail.split(',')
-#    print prob_fail
     return prob_fail
 
 
@@ -70,9 +69,12 @@ def get_counter(i):
 
 def generator():
     dependency = []
+    testnum = 0
     for i in no_of_tests :
-        testname = get_testnames() #['D']#
+        testnum += 1
+        testname = get_testnames(testnum) #['D']#
 #        print testname
+
         alltests.append(testname)
         counter = get_counter(i)
 #        print counter
