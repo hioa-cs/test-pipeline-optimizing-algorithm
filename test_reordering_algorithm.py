@@ -12,6 +12,7 @@ tests = []
 dataset = []
 pre_tests = {}
 sub_tests = {}
+sub_tests_combo = []
 global no_of_swap
 
 
@@ -25,7 +26,7 @@ def get_data(filename): # funtion in class as attribute can be a METHOD
         line.split(',')
         tests.append(line.replace('\n',''))
     print "TEST DATA COLLECTED FROM FILE and Stored in List"
-    print tests
+#    print tests
     return tests
 
 
@@ -35,6 +36,12 @@ def get_subtest(testkey,pre_tests,k,origin):
     # ptest = one test list such as > C:'B','A'
     # pre_tests = is a dictionary of dependencies of each test
     # k = key
+    combo = testkey + ":" + k + ":" + origin
+    if combo not in sub_tests_combo:
+        sub_tests_combo.append(combo)
+    else:
+        return
+
     ptest = pre_tests[testkey]
 
     if len(ptest) == 1 and ptest == '' :
@@ -42,9 +49,9 @@ def get_subtest(testkey,pre_tests,k,origin):
         return
 
     for tname in ptest:
-        if tname == k:
-            print 'storing {} as a subtest for {} in get_subtest'.format(tname, origin)
+        if tname == k:            
             if not testkey in sub_tests[origin]:
+                print 'storing {} as a subtest for {} in get_subtest'.format(testkey, origin)
                 sub_tests[origin].append(testkey)
             for ktest in pre_tests:
                 get_subtest(ktest,pre_tests,testkey,origin)
@@ -52,8 +59,8 @@ def get_subtest(testkey,pre_tests,k,origin):
 def compute_subtest(tests,pre_tests):
     for k in pre_tests:
         ptest = pre_tests[k]
-        print k
-        print ptest
+        #print k
+        #print ptest
 
         for tname in ptest:
             if tname == '' :
@@ -62,11 +69,11 @@ def compute_subtest(tests,pre_tests):
                 print "tname " + tname
                 if not tname in sub_tests:
                     sub_tests[tname] = []
-                print "tname in compute sub_tests " + tname
-                print 'storing {} as a subtest for {}'.format(k, tname)
+                print "tname in compute sub_tests " + tname                
                 if not k in sub_tests[tname]:
+                    print 'storing {} as a subtest for {}'.format(k, tname)
                     sub_tests[tname].append(k)
-                print sub_tests
+                # print sub_tests
                 for ktest in pre_tests:
                     get_subtest(ktest,pre_tests,k,tname)
 
@@ -88,8 +95,8 @@ def get_dependencies(test,ptest,ptests):
     # pre_list = is an empty list that is assigned the ptest[] list as found in test
     pre_list = []
     pre_list = ptest.split(',')[3:]
-    print "pre_list"
-    print pre_list
+    # print "pre_list"
+    # print pre_list
     # 1. get all known get_dependencies
     print "Finding all unknown dependencies for " + test + " from " + ptest[0]
     if len(pre_list) == 1 and pre_list[0] == '':
@@ -119,7 +126,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
     for r in ptests:
         r = r.split(',')
         pre_list = r[3:]
-        print ptests
+        #print ptests
         # print "pre_list"
         # print pre_list
         sublen = len(pre_list)
@@ -132,8 +139,8 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
         #    return # with this return it skips finding dependencies if pre_list is empty
         #        print pre_list
         for t in pre_list:
-            print pre_list
-            print t
+            # print pre_list
+            # print t
             #t = t.split(',') #newly added for splitting, because t was printing and storing the commas as values
             print 'storing {} as a dependency for {}'.format(t,tname)
             pre_tests[tname].append(t)
@@ -150,7 +157,7 @@ def compute_pre_tests(ptests): # whole tests list, particular test positon - pos
 ########################### COMPUTING MAX AND MIN VALUES ########################################
 
 def find_max(tests, pos, tlist):
-    print "=== Finding MAX position for dependency list ==="
+#    print "=== Finding MAX position for dependency list ==="
 #    print tlist
 
     if tlist == []:
@@ -163,25 +170,25 @@ def find_max(tests, pos, tlist):
             i = tests.index(test)+1
             test = test.split(',')
             if test[0] == t:
-                print test[0]
+                # print test[0]
                 t_position = int(i)
                 if int(t_position) > int(max_position):
                     max_position = t_position
     #                print max_position
 
-    print "Max position for list: "
-    print max_position
+    # print "Max position for list: "
+    # print max_position
     return max_position
 
 def find_min(tests, pos, tlist):
 
-    print "=== Finding MIN position for dependency list ==="
-    print tlist
+    #print "=== Finding MIN position for dependency list ==="
+    #print tlist
 
     if tlist == []:
         return len(tests) + 1
     min_position = len(tests) + 1
-    print min_position
+    #print min_position
 
     for t in tlist:
     #    i = 0
@@ -192,10 +199,10 @@ def find_min(tests, pos, tlist):
                 t_position = int(i)
                 if int(t_position) < int(min_position):
                     min_position = t_position
-                    print min_position
+                    #print min_position
 
-    print "Min postion for list: "
-    print min_position
+    # print "Min postion for list: "
+    # print min_position
     return min_position
 
 ########################### END OF COMPUTING MAX AND MIN VALUES ############################
@@ -204,36 +211,36 @@ def find_min(tests, pos, tlist):
 
 def find_xpos(tests,tx):
     tlen = len(tests)
-    print 'Finding position of x for swapping'
+    #print 'Finding position of x for swapping'
 #    i = 0
     for t in tests:
         if tx[0] == t[0:40]:
-            print t[0:40]
-            print tx[0]
+            #print t[0:40]
+            #print tx[0]
             xpos = i
         i = tests.index(t)+1
-    print xpos
+    #print xpos
     return int(xpos)
 
 
 def find_ypos(tests,ty):
     tlen = len(tests)
-    print 'finding position of y for swapping'
+    #print 'finding position of y for swapping'
 #    i = 0
     for t in tests:
         if ty[0] == t[0:40]:
-            print t[0:40]
-            print ty[0]
+            #print t[0:40]
+            #print ty[0]
             ypos = i
         i = tests.index(t)+1
-    print ypos
+    #print ypos
     return int(ypos)
 
 
 ##################################### SWAPPING TESTS #######################################
 def swap(tests, tx, ty): # tx and ty contains list of each test
 
-    print "Swapping is Valid, therefore SWAPPING tests:"
+    #print "Swapping is Valid, therefore SWAPPING tests:"
     temp = []
     t = []
     xpos = find_xpos(tests,tx)
@@ -254,7 +261,7 @@ def swap(tests, tx, ty): # tx and ty contains list of each test
 def reorder(tests,pre_tests,sub_tests,no_of_swap):
     no_of_swap = 0
     print " ====== ***** Running Reorder Algorithm ***** ======"
-    print tests
+    #print tests
 #    i = 0
     for rx in tests:
         i = tests.index(rx)+1
@@ -279,7 +286,7 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
                     ry_pre_test_maxpos = int(find_max(tests, ypos, pre_tests[tyname]))
                     # if there are no dependencies at all the loop fails to continue
                     if int(xpos) > int(ry_pre_test_maxpos) and int(ypos) < int(rx_sub_test_minpos):
-                        print "Comparing positions of tests for swapping"
+                        #print "Comparing positions of tests for swapping"
                         if float(y_prob_fail) > float(x_prob_fail) :
                             # new value of decrease in time by doing swapping
                             # difference in test positions - difference in porbability of a test failing
@@ -288,30 +295,30 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
                             if delta_max < delta_new:
                                 delta_max = delta_new
                                 delta_max_test = ry
-                                print delta_max
+                                #print delta_max
 
                 else:
 
                     ry_sub_test_minpos = int(find_min(tests, ry, sub_tests[txname]))
                     rx_pre_test_maxpos = int(find_max(tests, rx, pre_tests[txname]))
                     if int(ypos) > int(rx_pre_test_maxpos) and int(xpos) < int(ry_sub_test_minpos):
-                        print "Comparing positions of tests for swapping"
+                        #print "Comparing positions of tests for swapping"
                         if float(x_prob_fail) > float(y_prob_fail) :
                             delta_new = (x_prob_fail - y_prob_fail) * (xpos - ypos)
                             # print delta_new
                             if delta_max < delta_new:
                                 delta_max = delta_new
                                 delta_max_test = ry # the whole test and its elements
-                                print delta_max
+                                # print delta_max
 
         if delta_max > 0:
-            print delta_max
+            #print delta_max
             no_of_swap += 1
             swap(tests, rx, delta_max_test)
-            print tests
+            #print tests
 
     print "====== Finished Running Reorder Algorithm ======"
-    print no_of_swap
+    print "no_of_swap" + str(no_of_swap)
     return delta_max, no_of_swap
 
 ##################################### END OF REORDER ALGORITHM ####################################
@@ -324,15 +331,15 @@ def main():
     compute_pre_tests(get_data(filename))
     endofpretests = time.time() - starttime
     print "pre_tests:"
-    print pre_tests
+    #print pre_tests
     print "======== STARTS COMPUTING SUB TESTS ======="
     compute_subtest(tests,pre_tests)
     endofsubtests = time.time() - starttime
     print "sub_tests:"
-    print sub_tests
+    #print sub_tests
     reorder(tests, pre_tests, sub_tests, no_of_swap)
     endofreordertests = time.time() - starttime
-    print tests
+    #print tests
 
     print "Storing sorted list to testdataset_sorted.csv"
 
