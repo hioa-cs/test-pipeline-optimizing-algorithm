@@ -12,6 +12,7 @@ import time
 
 num = int(sys.argv[1])
 no_of_dep = int(sys.argv[2])
+tfilename = sys.argv[3]
 multidep = range(no_of_dep)
 no_of_tests = range(num)
 tests = []
@@ -29,7 +30,8 @@ def random_char(y):
 
 def write_data(tests):
     timestr = time.strftime("%H%M%S")
-    testfilename = 'datasets/testdataset_multidep_{0}{1}'.format(timestr,".csv")
+    testfilename = 'datasets/{0}{1}'.format(tfilename,".csv")
+#    testfilename = 'datasets/testdataset_multidep_{0}{1}'.format(timestr,".csv")
     testing = csv.writer(open(testfilename, 'wb'), lineterminator='\n')
     for line in tests:
         testing.writerow(line)
