@@ -7,7 +7,7 @@ PROB=$3
 FILENAME=dataset_${TESTS}_${DEPS}.csv
 # generate the dataset
 
-./test_generator.py $TESTS $DEPS $FILENAME $PROB
+./test_generator.py $TESTS $DEPS $PROB $FILENAME
 
 echo "### BEGIN INPUT"
 cat $FILENAME
