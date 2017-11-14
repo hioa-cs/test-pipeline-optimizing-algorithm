@@ -237,7 +237,7 @@ def find_xpos(tests,tx):
     #print 'Finding position of x for swapping'
 #    i = 0
     for t in tests:
-        if tx[0] == t[0:10]:
+        if tx[0] == t.split(',')[0]:
             #print t[0:40]
             #print tx[0]
             xpos = i
@@ -251,7 +251,7 @@ def find_ypos(tests,ty):
     #print 'finding position of y for swapping'
 #    i = 0
     for t in tests:
-        if ty[0] == t[0:10]:
+        if ty[0] == t.split(',')[0]:
             #print t[0:40]
             #print ty[0]
             ypos = i
@@ -383,7 +383,7 @@ def main():
     text_file = open(outcomputationfile, 'w')
     text_file.write("Test file used: {}\n".format(filename))
     text_file.write("Start time: {}\n".format(starttime))
-    text_file.write("End of collectiong subtests: {}\n".format(endofpretests))
+    text_file.write("End of collecting subtests: {}\n".format(endofpretests))
     text_file.write("End of collecting pretests: {}\n".format(endofsubtests))
     text_file.write("End of reordering tests: {}\n".format(endofreordertests))
     text_file.write("End time: {}\n".format(endtime))
