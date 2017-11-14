@@ -1,4 +1,0 @@
-Test file used: datasets/testdataset_010556_USER_1.csv
-Start time: 1510532957.19
-End time: 1510532957.23
-Total time taken: 0.0359380245209 seconds.

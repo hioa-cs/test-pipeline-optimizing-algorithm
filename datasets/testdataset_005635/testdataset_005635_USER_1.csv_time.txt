@@ -1,5 +1,0 @@
-Test file used: datasets/testdataset_005635_USER_1.csv
-Start time: 1510531280.62
-End time: 1510531280.64
-No of swaps: 0
-Total time taken: 0.0196850299835 seconds.
