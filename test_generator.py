@@ -13,7 +13,9 @@ import time
 num = int(sys.argv[1])
 no_of_dep = int(sys.argv[2])
 #tfilename = sys.argv[3]
-arg_filename = str(sys.argv[3])
+prob_parameter = float(sys.argv[3])
+arg_filename = str(sys.argv[4])
+
 
 multidep = range(no_of_dep)
 no_of_tests = range(num)
@@ -61,8 +63,11 @@ def get_dependencies(alltests,testname):
     dependency = []
 #   if not prob_check(prob_parameter):
 #        return dependency
+#    compute = prob_parameter * len(alltests)
+#    print compute
+    if prob_parameter <= random.uniform(0.0001, 1.0000):
+        return dependency
 
-    
     for i in multidep:
         dep = random.choice(alltests)
         if dep not in dependency and dep != testname:
