@@ -55,6 +55,10 @@ def get_probabilities():
 def get_dependencies(alltests,testname):
 #    print alltests
     dependency = []
+#   if not prob_check(prob_parameter):
+#        return dependency
+
+    
     for i in multidep:
         dep = random.choice(alltests)
         if dep not in dependency and dep != testname:
