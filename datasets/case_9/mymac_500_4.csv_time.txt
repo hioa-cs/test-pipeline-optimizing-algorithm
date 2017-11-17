@@ -1,0 +1,10 @@
+### BEGIN TIME
+Test file used: dataset_500_4.csv
+Start time: 1510655925.79
+End of collecting subtests: 0.0655479431152
+End of collecting pretests: 1.0870718956
+End of reordering tests: 91581.4428959
+End time: 1510747507.23
+No of swaps: 4
+Total time taken: 91581.4429028 seconds.
+### END TIME

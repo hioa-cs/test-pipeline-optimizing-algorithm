@@ -1,0 +1,9 @@
+Test file used: datasets/case_3/100tests_mid_50_3/t7.csv_sorted.csv
+Start time: 1510947675.17
+collecting pretests: 0.00305199623108
+collecting subtests: 1510947675.19
+reordering tests: 22.9080750942
+End time: 1510947698.1
+No of swaps: 0
+Total time taken: 22.9308979511 seconds.
+Reordering time for every 100 tests in list:[22.904983043670654]

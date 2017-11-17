@@ -1,8 +1,0 @@
-Test file used: datasets/100tests_min_20_2/t2.csv
-Start time: 1510659825.01
-End of collecting subtests: 0.00209808349609
-End of collecting pretests: 0.0287220478058
-End of reordering tests: 4.02369189262
-End time: 1510659829.03
-No of swaps: 1
-Total time taken: 4.02369403839 seconds.
