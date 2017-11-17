@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
-#####Note: The test position found in testdataset is no longer used in sorting.
-
+#####Note: The test position found in testdataset is not used in sorting.
+##### They will be used for other computations
 
 import sys
 import operator
@@ -286,6 +286,8 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
     print " ====== ***** Running Reorder Algorithm ***** ======"
     #print tests
 #    i = 0
+    time_now = []
+    startreorder = time.time()
     for rx in tests:
         i = tests.index(rx)+1
         rx = rx.split(',')
@@ -341,36 +343,41 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
             swap(tests, rx, delta_max_test)
             #print tests
 
+        if ((i%100) == 0):
+                time_now.append(time.time() - startreorder)
+
+
     print "====== Finished Running Reorder Algorithm ======"
     print "no_of_swap: " + str(no_of_swap)
-    return delta_max, no_of_swap
+    return delta_max, no_of_swap, time_now
 
 ##################################### END OF REORDER ALGORITHM ####################################
 
 def main():
     starttime = time.time()
     print "Start time :", starttime
-
     compute_pre_tests(get_data(filename))
     endofpretests = time.time() - starttime
-    print "pre_tests:"
+    print "pre_tests collection completed"
     #print pre_tests
     print "======== STARTS COMPUTING SUB TESTS ======="
+    start_ofpretests = time.time()
     compute_subtest_fast(tests,pre_tests)
-    endofsubtests = time.time() - starttime
-    print "sub_tests:"
+    endofsubtests = time.time() - start_ofpretests
+    print "sub_tests collection completed"
     #print sub_tests
-    delta_max, swapcounter = reorder(tests, pre_tests, sub_tests, no_of_swap)
-    endofreordertests = time.time() - starttime
+    start_ofreorder = time.time()
+    delta_max, swapcounter, time_now = reorder(tests, pre_tests, sub_tests, no_of_swap)
+    endofreordertests = time.time() - start_ofreorder
     #print tests
 
-    print "Storing sorted list to testdataset_sorted.csv"
+    print "Storing sorted list to csv"
 
     endtime = time.time()
     print "End time :", endtime
 
     timetaken = endtime - starttime
-    print "total time taken in seconds: ", timetaken
+    print "total time taken to sort in seconds: ", timetaken
 
     #timestr = time.strftime("%H%M%S")
     outfile_name = '{0}{1}{2}'.format(filename,"_sorted",".csv")
@@ -383,12 +390,14 @@ def main():
     text_file = open(outcomputationfile, 'w')
     text_file.write("Test file used: {}\n".format(filename))
     text_file.write("Start time: {}\n".format(starttime))
-    text_file.write("End of collecting subtests: {}\n".format(endofpretests))
-    text_file.write("End of collecting pretests: {}\n".format(endofsubtests))
-    text_file.write("End of reordering tests: {}\n".format(endofreordertests))
+    text_file.write("collecting pretests: {}\n".format(endofpretests))
+    text_file.write("collecting subtests: {}\n".format(endofsubtests))
+    text_file.write("reordering tests: {}\n".format(endofreordertests))
     text_file.write("End time: {}\n".format(endtime))
     text_file.write("No of swaps: {}\n".format(swapcounter))
     text_file.write("Total time taken: {} seconds.\n".format(timetaken))
+    text_file.write("Reordering time for every 100 tests in list:\n")
+    text_file.write(str(time_now))
     text_file.close()
 # ONCE the test and swapping is done the test position in file only shows the
 # before positions. Therefore no further sorting in recommended.
