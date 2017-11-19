@@ -1,0 +1,10 @@
+Test file used: datasets/case_6/t3_min/t3_min_USER_4.csv
+Start time: 1511132939.41
+collecting pretests: 0.00870704650879
+collecting subtests: 0.0264391899109
+reordering tests: 7.73117494583
+End time: 1511132947.18
+No of swaps: 2
+Total time taken: 7.76634907722 seconds.
+Reordering time for every 100 tests in list:
+[7.731141090393066]

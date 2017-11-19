@@ -9,7 +9,7 @@ import time
 
 filename = sys.argv[1]
 users = int(sys.argv[2])
-outfilename = sys.argv[3]
+#outfilename = sys.argv[3]
 no_of_users = range(users)
 
 tests = []
@@ -40,9 +40,11 @@ def get_probabilities():
 
 def set_new_prob(tests): # in progress
 #    pos = tests.index(test)
+#    dep = []
     for test in tests:
         pos = tests.index(test)
 #        print pos
+
         test = test.split(',')
         new_prob = 0
         new_prob = get_probabilities()
@@ -52,20 +54,21 @@ def set_new_prob(tests): # in progress
     #    testsnew.append(list(testnew))
         if not test[3:]:
             dep = ' '
-    #        print "space"
+#            print "space"
+#            print dep
         else:
-    #        dep = test[3] # works for one dependency
-            dep = test[3:]
-            dep.split(",")
-#        print dep
+            dep = ','.join(test[3:]) # works for one dependency
+            dep = dep.replace('"', ' ').strip()
+            # print dep
         tests[pos] = test[0], test[1], new_prob[0], dep # test[3:]
+    #    print tests[pos]
 #    print tests
     return tests
 
 def write_data(newtests,i):
     timestr = time.strftime("%H%M%S")
-#    testfilename = 'datasets/testdataset_{0}{1}{2}{3}'.format(timestr,"_USER_",i,".csv")
-    testfilename = outfilename
+    testfilename = 'datasets/case_6/{0}{1}{2}'.format("_USER_",i,".csv")
+#    testfilename = outfilename
     testing = csv.writer(open(testfilename, 'wb'), lineterminator='\n')
     for line in tests:
         testing.writerow(line)
@@ -81,16 +84,16 @@ def main():
     newtests = set_new_prob(tests)
     #    print newtests
     write_data(newtests,i)
-
+    print no_of_users
     for i in no_of_users :
         del tests[:]
 #        tests[:] = []
         newtests[:] = []
         i += 1
-
+        print i
         get_data(filename)
         newtests = set_new_prob(tests)
-        #    print newtests
+        print newtests
         write_data(newtests,i)
 
 if __name__ == '__main__':
