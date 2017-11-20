@@ -16,7 +16,7 @@ echo "### END INPUT"
 # run the test
 
 echo "### BEGIN ALGORITM"
-./test_reordering_algorithm_fast.py $FILENAME
+./test_reordering_algorithm_fastest.py $FILENAME
 echo "### END ALGORITHM"
 
 echo "### BEGIN SORTED"
