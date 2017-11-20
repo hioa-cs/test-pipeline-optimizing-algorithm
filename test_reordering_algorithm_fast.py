@@ -190,7 +190,7 @@ def find_max(tests, pos, tlist):
     for t in tlist:
     #    i = 0
         for test in tests:
-            i = tests.index(test)+1
+            i = tests.index(test)
             test = test.split(',')
             if test[0] == t:
                 # print test[0]
@@ -209,23 +209,26 @@ def find_min(tests, pos, tlist):
     #print tlist
 
     if tlist == []:
+        print "     -> find_min() deps empty, returning len(tests)"
         return len(tests) + 1
-    min_position = len(tests) + 1
+    min_position = len(tests)
     #print min_position
 
     for t in tlist:
     #    i = 0
         for test in tests:
-            i = tests.index(test)+1
+            i = tests.index(test)
             test = test.split(',')
             if test[0] == t:
                 t_position = int(i)
+                print "     -> checking position of " + t + " (" + str(t_position) + ")"
                 if int(t_position) < int(min_position):
                     min_position = t_position
                     #print min_position
 
     # print "Min postion for list: "
     # print min_position
+    print "     -> min position is " + str(min_position)
     return min_position
 
 ########################### END OF COMPUTING MAX AND MIN VALUES ############################
@@ -237,12 +240,13 @@ def find_xpos(tests,tx):
     #print 'Finding position of x for swapping'
 #    i = 0
     for t in tests:
+    #    i = tests.index(t)+1
         if tx[0] == t.split(',')[0]:
             #print t[0:40]
             #print tx[0]
-            xpos = i
-        i = tests.index(t)+1
-    #print xpos
+            xpos = tests.index(t)
+
+    print xpos
     return int(xpos)
 
 
@@ -251,11 +255,12 @@ def find_ypos(tests,ty):
     #print 'finding position of y for swapping'
 #    i = 0
     for t in tests:
+#        i = tests.index(t)+1
         if ty[0] == t.split(',')[0]:
             #print t[0:40]
             #print ty[0]
-            ypos = i
-        i = tests.index(t)+1
+            ypos = tests.index(t)
+
     #print ypos
     return int(ypos)
 
@@ -288,27 +293,33 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
 #    i = 0
     time_now = []
     startreorder = time.time()
-    for rx in tests:
-        i = tests.index(rx)+1
+    original_tests = tests[:]
+    for rx in original_tests:
+        i = tests.index(rx)
         rx = rx.split(',')
         txname = rx[0]
         xpos = int(i)
         x_prob_fail= float(rx[2])
+        delta_max = 0.0
+        delta_max_test = 0.0
+
+        print "Testing RX: " + txname + " position: " + str(xpos)
 #        j = 0
+
         for ry in tests:
-            j = tests.index(ry)+1
-            delta_max = 0
-            delta_max_test = 0
+            j = tests.index(ry)
             ry = ry.split(',')
             tyname = ry[0]
-            delta_new = 0
+            delta_new = 0.0
             ypos = int(j)
             y_prob_fail = float(ry[2])
+            print " -> Testing RY: " + tyname + " position: " + str(ypos)
             if rx != ry:
                 if xpos < ypos:
                     # if there are no dependencies these functions return zero
                     rx_sub_test_minpos = int(find_min(tests, xpos, sub_tests[txname]))
                     ry_pre_test_maxpos = int(find_max(tests, ypos, pre_tests[tyname]))
+                    print "  -> rx_sub_test_minpos: " + str(rx_sub_test_minpos) + " ry_pre_test_maxpos: " + str(ry_pre_test_maxpos)
                     # if there are no dependencies at all the loop fails to continue
                     if int(xpos) > int(ry_pre_test_maxpos) and int(ypos) < int(rx_sub_test_minpos):
                         #print "Comparing positions of tests for swapping"
@@ -316,32 +327,38 @@ def reorder(tests,pre_tests,sub_tests,no_of_swap):
                             # new value of decrease in time by doing swapping
                             # difference in test positions - difference in porbability of a test failing
                             delta_new = (y_prob_fail - x_prob_fail) * (ypos - xpos)
-
+                            print "   -> delta is " + str(delta_new)
                             if delta_max < delta_new:
                                 delta_max = delta_new
                                 delta_max_test = ry
+                                print "     -> storing " + tyname + " as swap candidate"
                                 #print delta_max
 
                 else:
 
-                    ry_sub_test_minpos = int(find_min(tests, ry, sub_tests[txname]))
+                    print "     -> calling find_min() for ry"
+                    ry_sub_test_minpos = int(find_min(tests, ry, sub_tests[tyname]))
+                    print "     -> calling find_max() for rx"
                     rx_pre_test_maxpos = int(find_max(tests, rx, pre_tests[txname]))
                     if int(ypos) > int(rx_pre_test_maxpos) and int(xpos) < int(ry_sub_test_minpos):
                         #print "Comparing positions of tests for swapping"
                         if float(x_prob_fail) > float(y_prob_fail) :
                             delta_new = (x_prob_fail - y_prob_fail) * (xpos - ypos)
+                            print "   -> delta is " + str(delta_new)
                             # print delta_new
                             if delta_max < delta_new:
                                 delta_max = delta_new
                                 delta_max_test = ry # the whole test and its elements
-                                # print delta_max
+                                print "     -> storing " + tyname + " as swap candidate" # print delta_max
 
         if delta_max > 0:
             #print delta_max
             no_of_swap += 1
             print no_of_swap
+            print " +> Swapping " + txname + " (" + str(xpos) + ") with " + delta_max_test[0]
             swap(tests, rx, delta_max_test)
-            #print tests
+            for tmp in tests:
+                print tmp
 
         if ((i%100) == 0):
                 time_now.append(time.time() - startreorder)
