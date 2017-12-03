@@ -1,10 +1,10 @@
 Test file used: datasets/case_3/100tests_min_20_2/t7.csv
-Start time: 1510957278.18
-collecting pretests: 0.00132894515991
-collecting subtests: 0.0184659957886
-reordering tests: 2.98210191727
-End time: 1510957281.18
-No of swaps: 4
-Total time taken: 3.00191998482 seconds.
+Start time: 1511198737.8
+collecting pretests: 0.00152111053467
+collecting subtests: 0.0180730819702
+reordering tests: 0.0656499862671
+End time: 1511198737.88
+No of swaps: 95
+Total time taken: 0.0852770805359 seconds.
 Reordering time for every 100 tests in list:
-[2.9820749759674072]
+[0.0008261203765869141, 0.00362396240234375, 0.0062220096588134766]

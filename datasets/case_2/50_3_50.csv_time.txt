@@ -1,9 +1,0 @@
-Test file used: 50_3_50.csv
-Start time: 1510917397.6
-End of collecting subtests: 0.00140786170959
-End of collecting pretests: 0.0103418827057
-End of reordering tests: 1.94912290573
-End time: 1510917399.55
-No of swaps: 3
-Total time taken: 1.94912791252 seconds.
-[]

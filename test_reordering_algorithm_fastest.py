@@ -231,7 +231,6 @@ def find_xpos(tests,tx):
     tlen = len(tests)
     #print 'Finding position of x for swapping'
 #    i = 0
-
     return test_pos[tx[0]]
 
     for t in tests:
@@ -249,7 +248,6 @@ def find_ypos(tests,ty):
     tlen = len(tests)
     #print 'finding position of y for swapping'
 #    i = 0
-
     return test_pos[ty[0]]
 
     for t in tests:
@@ -271,7 +269,6 @@ def swap(tests, tx, ty): # tx and ty contains list of each test
     t = []
     xpos = find_xpos(tests,tx)
     ypos = find_ypos(tests,ty)
-
 #    t = tx
     temp = tests[xpos]
 #    tx = ty
@@ -388,6 +385,7 @@ def main():
     start_ofreorder = time.time()
     delta_max, swapcounter, time_now = reorder(tests, pre_tests, sub_tests, no_of_swap)
     endofreordertests = time.time() - start_ofreorder
+
     #print tests
 
     print "Storing sorted list to csv"
@@ -418,6 +416,7 @@ def main():
     text_file.write("Reordering time for every 100 tests in list:\n")
     text_file.write(str(time_now))
     text_file.close()
+
 # ONCE the test and swapping is done the test position in file only shows the
 # before positions. Therefore no further sorting in recommended.
 
