@@ -1,0 +1,10 @@
+FROM ubuntu:16.04
+MAINTAINER Kyrre Begnum
+
+RUN apt-get update && apt-get install -y python python2.7
+# ADD test_reordering_algorithm_fastest_cost.py /
+ADD test_reordering_algorithm_fastest.py /
+ADD run_data_and_test_cost.sh /
+ADD test_generator.py /
+ADD cost_generator.py /
+

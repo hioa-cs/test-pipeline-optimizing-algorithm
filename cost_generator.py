@@ -73,20 +73,20 @@ def generator():
     for i in no_of_tests :
         testnum += 1
         testname = get_testnames(testnum) #['D']#
-        print testname
+#        print testname
 
         counter = get_counter(i)
 #        print counter
         prob_cost = get_probabilities() #['0.5']
-        print prob_cost[0]
+#        print prob_cost[0]
         if float(prob_cost[0]) <= low_cutoff:
-            prob_cost[0] = 0.1
+            prob_cost[0] = 1
         elif float(prob_cost[0]) <= medium_cutoff:
             prob_cost[0] = 0.75
         else :
             prob_cost[0] = 0.5
 
-        print "decided: " + str(prob_cost[0])
+        print str(testname) + " has cost: " + str(prob_cost[0])
         test_data = testname + prob_cost
         tests.append(test_data)
 
