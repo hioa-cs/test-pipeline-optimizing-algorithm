@@ -16,6 +16,7 @@ sub_tests = {}
 sub_tests_combo = []
 global no_of_swap
 no_of_swap = 0
+lastcount = 0
 
 ######################### GETTING TESTS from FILE #########################
 
@@ -280,7 +281,7 @@ def swap(tests, tx, ty): # tx and ty contains list of each test
     test_pos[tx[0]] = test_pos[ty[0]]
     test_pos[ty[0]] = temp_pos
 
-    return tests
+    return test_pos
 
 
 ##################################### REORDER ALGORITHM #######################################
@@ -387,11 +388,16 @@ def main():
 
     ## added for multiple swaps
     iteration = 1
+    lastcount = 0
 
     # while counter is greater then 0 and not the same as the last time
-    while (swapcounter > 0 or  ):
-        iteration += 1
+    while (swapcounter > 0 ):
+    # or int(swapcounter) != int(lastcount))
         delta_max, swapcounter, time_now = reorder(tests, pre_tests, sub_tests, swapcounter)
+        if lastcount == swapcounter:
+            break
+        lastcount = swapcounter
+        iteration += 1
 
     endofreordertests = time.time() - start_ofreorder
 
