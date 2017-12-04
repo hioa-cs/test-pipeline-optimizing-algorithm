@@ -15,6 +15,7 @@ no_of_dep = int(sys.argv[2])
 # tfilename = sys.argv[3]
 prob_parameter = float(sys.argv[3])
 arg_filename = str(sys.argv[4])
+cost_filename = str(sys.argv[5])
 
 
 multidep = range(no_of_dep)
@@ -23,11 +24,12 @@ tests = []
 prob_fail = []
 dependency = []
 test_data = []
+test_cost = []
+withcost = []
 counter = []
 alltests = []
 copytests = []
 testname = []
-
 
 def random_char(y):
        return ''.join(random.choice(string.ascii_letters) for x in range(y))
@@ -43,13 +45,19 @@ def write_data(tests):
     for line in tests:
         testing.writerow(line)
 
+def write_cost(withcost):
+    if arg_filename:
+        testfilename = cost_filename
+
+    testing = csv.writer(open(testfilename, 'wb'), lineterminator='\n')
+    for line in withcost:
+        testing.writerow(line)
 
 def get_testnames(testnum):
     testname = '%010d' % testnum
 #    testname = str(testname)
     testname = testname.split(',')
     return testname
-
 
 def get_probabilities():
     prob_fail = random.uniform(0.0001, 1.0000)
@@ -59,10 +67,9 @@ def get_probabilities():
 
 
 def get_dependencies(alltests,testname):
-#    print alltests
+
     dependency = []
-#   if not prob_check(prob_parameter):
-#        return dependency
+
     if prob_parameter <= random.uniform(0.0001, 1.0000):
         return dependency
 
@@ -81,6 +88,12 @@ def get_counter(i):
 #    print counter
     return counter
 
+def get_cost():
+    cost = random.uniform(0.50, 1.0000)
+    cost = repr(cost)
+    cost = cost.split(',')
+    return cost
+
 def generator():
     dependency = []
     testnum = 0
@@ -88,7 +101,6 @@ def generator():
         testnum += 1
         testname = get_testnames(testnum) #['D']#
 #        print testname
-
         alltests.append(testname)
         counter = get_counter(i)
 #        print counter
@@ -102,13 +114,21 @@ def generator():
         test_data = testname + counter + prob_fail + dependency
         tests.append(test_data)
 
-    return tests
+        cost = get_cost()
+#        print cost
+        test_cost = testname + cost
+        withcost.append(test_cost)
+
+    return tests, withcost
 
 def main():
 
-    testset = generator()
+    testset, withcost = generator()
+
 #    print testset
     write_data(testset)
+
+    write_cost(withcost)
 
 
 if __name__ == '__main__':
