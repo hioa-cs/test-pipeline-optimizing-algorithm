@@ -1,5 +1,5 @@
 Avg time to discover failure in list: 2619.59005157 
 
-Avg time to discover failure in sorted list: 2383.67246288 
+Avg time to discover failure in sorted list: 2378.65707801 
 
-Simple impact value of sorting: 235.917588691 
+Simple impact value of sorting: 240.932973553 
