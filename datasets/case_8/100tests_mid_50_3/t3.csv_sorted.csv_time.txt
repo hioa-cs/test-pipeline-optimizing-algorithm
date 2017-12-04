@@ -1,9 +1,11 @@
-Test file used: datasets/case_3/100tests_mid_50_3/t3.csv_sorted.csv
-Start time: 1510947481.36
-collecting pretests: 0.00427603721619
-collecting subtests: 1510947481.4
-reordering tests: 24.0503659248
-End time: 1510947505.45
-No of swaps: 1
-Total time taken: 24.0830161572 seconds.
-Reordering time for every 100 tests in list:[24.04605007171631]
+Test file used: datasets/case_8/100tests_mid_50_3/t3.csv_sorted.csv
+Start time: 1512345933.55
+collecting pretests: 0.002760887146
+collecting subtests: 0.0315790176392
+reordering tests: 0.126089096069
+End time: 1512345933.71
+No of swaps: 0
+No of iterations of reorder algorithm: 1
+Total time taken: 0.160449981689 seconds.
+Reordering time for every 100 tests in list:
+[0.001007080078125]

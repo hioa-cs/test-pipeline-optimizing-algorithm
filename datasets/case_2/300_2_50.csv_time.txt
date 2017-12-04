@@ -1,9 +1,10 @@
-Test file used: datasets/300_2_50.csv
-Start time: 1510921495.62
-End of collecting subtests: 0.0170660018921
-End of collecting pretests: 0.290705919266
-End of reordering tests: 1022.677279
-End time: 1510922518.29
-No of swaps: 3
-Total time taken: 1022.67729092 seconds.
-[849.3284738063812, 967.0382599830627, 1022.3864979743958]
+Test file used: datasets/case_2/300_2_50.csv
+Start time: 1511207061.81
+collecting pretests: 0.033793926239
+collecting subtests: 0.204176902771
+reordering tests: 1.05057501793
+End time: 1511207063.1
+No of swaps: 278
+Total time taken: 1.28858995438 seconds.
+Reordering time for every 100 tests in list:
+[0.01903390884399414, 0.4798738956451416, 0.5471169948577881, 0.7732079029083252, 0.7926690578460693, 0.8589329719543457]

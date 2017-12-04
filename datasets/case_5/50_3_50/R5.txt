@@ -1,0 +1,10 @@
+Test file used: datasets/case_5/50_3_50_obviouscase.csv_sorted.csv_sorted.csv_sorted.csv_sorted.csv
+Start time: 1512082865.73
+collecting pretests: 0.00138998031616
+collecting subtests: 0.00670409202576
+reordering tests: 0.0292549133301
+End time: 1512082865.77
+No of swaps: 4
+Total time taken: 0.0373709201813 seconds.
+Reordering time for every 100 tests in list:
+[0.0014748573303222656, 0.001990079879760742]

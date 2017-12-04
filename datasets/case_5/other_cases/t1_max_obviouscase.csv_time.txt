@@ -1,0 +1,10 @@
+Test file used: datasets/case_5/t1_max_obviouscase.csv
+Start time: 1511199336.13
+collecting pretests: 0.0139858722687
+collecting subtests: 0.0622458457947
+reordering tests: 0.202907800674
+End time: 1511199336.4
+No of swaps: 82
+Total time taken: 0.279172897339 seconds.
+Reordering time for every 100 tests in list:
+[0.006743907928466797]

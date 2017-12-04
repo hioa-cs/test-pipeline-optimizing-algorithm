@@ -1,0 +1,10 @@
+Test file used: datasets/case_5/t1_min_obviouscase.csv
+Start time: 1511199336.47
+collecting pretests: 0.0087718963623
+collecting subtests: 0.0217599868774
+reordering tests: 0.0704119205475
+End time: 1511199336.57
+No of swaps: 93
+Total time taken: 0.100970983505 seconds.
+Reordering time for every 100 tests in list:
+[0.0008420944213867188, 0.0038139820098876953, 0.007682085037231445, 0.07037496566772461]
