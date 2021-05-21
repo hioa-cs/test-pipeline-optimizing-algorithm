@@ -14,8 +14,8 @@ if __name__ == "__main__":
 
     dataset_name = sys.argv[1]
 
-    if not os.path.isfile('filename.txt'):
-        print ("File %s does not exist", dataset_name)
+    if not os.path.isfile(dataset_name):
+        print ("File {} does not exist".format(dataset_name))
         print("Exiting script...")
         exit(0)
 
