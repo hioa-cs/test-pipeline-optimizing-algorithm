@@ -1,4 +1,4 @@
-# jenkins-test-optimizer
+# test-optimizer
 
 The aim  of this project is to explore the boundaries of software test automation
 in a continuous delivery pipeline by implementing a re-ordering algorithm
@@ -8,51 +8,35 @@ are executed first, thus enabling faster feedback for failed tests to developers
 **This is a WIP**
 -----------------
 
-To test it:
+DATASET: https://github.com/staiyeba/atcs-dataset
+DATASET Format notes: https://github.com/staiyeba/retecs-forked/tree/master
 
-- Clone repository
+##The Algorithm
 
-  cd jenkins-test-optimizer
+### A Test Optimization Algorithm
+### An adaption of the RR-Algorithm
 
-- TO generate testset: Run test_generator.py
-
-  `$ ./test_generator.py <no of tests>`
-  
-  `$ ./test_generator.py 200`
-
-- The generated tests are stored under 'datasets/' and name of the file containing generated tests:
-
-  `$ datasets/testdataset.csv`
-
-
-- To generate multi user datasets from single testdata set use the multiuser_datasets.py:
-
- `$ ./multiuser_datasets.py <testdataset file><no of users>`
-  
- `$ ./multiuser_datasets.py datasets/testdataset_010242.csv 7`
-
-
-- To Re-order test sets using algorithm script: Run test_reordering_algorithm.py
-
-
-  `$ ./test_reordering_algorithm.py datasets/testdataset.csv`
-
-- To Re-order multiple testsets use script reorder_multiplesets.sh
-
-
-  `$ ./reorder_multiplesets.sh `
-  
-  `$ # this script works now, but is a WIP`
-
-
-- To compute a sample impact value single pair
-
-
-  `$ ./computations.py <unsorted dataset> <sorted dataset>`
-  
-  `$ ./computations.py datasets/testdataset_010242.csv datasets/testdataset_010242.csv_sorted.csv`
-
-
-- For multiple sets: WIP
-
-  `$ ./computations_multiplesets.sh <directory name>`
+```for tx in tests:
+    delta_max = 0
+    for ty in tests:
+        delta_new = 0
+        if tx != ty:
+             if tx.pos < ty.pos:
+                if tx.pos < pre_test_max_pos(ty) and \
+                ty.pos > subsequent_test_min_pos(tx):
+                    if tx.fail_prob < ty.fail_prob:
+                        delta_new = (ty.fail_prob − tx.fail_prob) \
+                        ∗ (ty.pos − tx.pos)
+                        if delta_max < delta_new:
+                            delta_max = delta_new
+            else:
+                if ty.pos < pre_test_max_pos(tx) and \
+                tx.pos > subsequent_test_min_pos(ty):
+                    if ty.fail_prob < tx.fail_prob:
+                        delta_new = (tx.fail_prob − ty.fail_prob) \
+                        ∗ (tx.pos − ty.pos)
+                        if delta_max < delta_new:
+                            delta_max = delta_new
+    if delta_max > 0:
+       swap(tx, ty)
+```

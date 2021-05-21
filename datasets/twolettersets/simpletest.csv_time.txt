@@ -1,8 +1,0 @@
-Test file used: datasets/twolettersets/simpletest.csv
-Start time: 1510653457.78
-End of collecting subtests: 0.000716924667358
-End of collecting pretests: 0.00105094909668
-End of reordering tests: 0.00148606300354
-End time: 1510653457.78
-No of swaps: 1
-Total time taken: 0.00148797035217 seconds.
