@@ -8,8 +8,9 @@ are executed first, thus enabling faster feedback for failed tests to developers
 **This is a WIP**
 -----------------
 
-DATASET: https://github.com/staiyeba/atcs-dataset
-DATASET Format notes: https://github.com/staiyeba/retecs-forked/tree/master
+- DATASET: https://github.com/staiyeba/atcs-dataset
+- DATASET Format notes: https://github.com/staiyeba/retecs-forked/tree/master
+- Old Dataset format: https://github.com/staiyeba/test-pipeline-optimizing-algorithm/blob/master/datasets/case_1/10000_3.csv
 
 ##The Algorithm
 
