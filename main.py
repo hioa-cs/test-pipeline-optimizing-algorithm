@@ -5,7 +5,6 @@ import random
 import argparse
 
 def generate_dependencies(dataset):
-
     len = len(dataset)
 
 def main(dataset_name):
